@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 本软件用于获取IOS系统相册库资源
-作者: 曾超(卖火柴的一点阳光)
+作者: 卖火柴的一点阳光
 
 版本 :1.0.0:
 
