@@ -1,8 +1,8 @@
 For example ：
 
-1 初始化 init
+1. 初始化 init
 
-XWAssetsPikerViewController *piker = [[XWAssetsPikerViewController alloc] init];
+XWAssetsPikerViewController *piker=[[XWAssetsPikerViewController alloc] init];
 piker.delegate = self;
 piker.assetsFilter = [ALAssetsFilter allAssets];
 [self presentViewController:piker animated:YES completion:NULL];
@@ -31,4 +31,4 @@ piker.assetsFilter = [ALAssetsFilter allAssets];
 
 
 
-                                                                        by 卖火柴的一点阳光
+                                                                        							by 卖火柴的一点阳光
