@@ -1,6 +1,7 @@
 For example ：
 
 1 初始化 init
+
 XWAssetsPikerViewController *piker = [[XWAssetsPikerViewController alloc] init];
 piker.delegate = self;
 piker.assetsFilter = [ALAssetsFilter allAssets];
@@ -16,10 +17,7 @@ piker.assetsFilter = [ALAssetsFilter allAssets];
 - (void)assetsPickerController:(XWAssetsPikerViewController *)picker didFinishPickingAssets:(NSArray *)assets;
 
 //是否显示 , should show
-- (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldShowAsset:(ALAsset *)asset
-{
-return YES;
-}
+- (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldShowAsset:(ALAsset *)asset;
 
 //是否可选择 ，should select
 - (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldSelectAsset:(ALAsset *)asset;
