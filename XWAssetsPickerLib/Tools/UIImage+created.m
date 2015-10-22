@@ -7,49 +7,155 @@
 //
 
 #import "UIImage+created.h"
+#import <ImageIO/ImageIO.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 @implementation UIImage (created)
 
-
-+ (UIImage *)imageWithColor:(UIColor *)color {
-
-    UIImage *image = [UIImage imageWithSize:CGSizeMake(1, 1) AndColor:color];
++ (UIImage *)animatedGIFWithData:(NSData *)data {
+    if (!data) {
+        return nil;
+    }
     
-    return image;
+    CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
+    
+    size_t count = CGImageSourceGetCount(source);
+    
+    UIImage *animatedImage;
+    
+    if (count <= 1) {
+        animatedImage = [[UIImage alloc] initWithData:data];
+    }
+    else {
+        NSMutableArray *images = [NSMutableArray array];
+        
+        NSTimeInterval duration = 0.0f;
+        
+        for (size_t i = 0; i < count; i++) {
+            CGImageRef image = CGImageSourceCreateImageAtIndex(source, i, NULL);
+            
+            duration += [self frameDurationAtIndex:i source:source];
+            
+            [images addObject:[UIImage imageWithCGImage:image scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp]];
+            
+            CGImageRelease(image);
+        }
+        
+        if (!duration) {
+            duration = (1.0f / 10.0f) * count;
+        }
+        
+        animatedImage = [UIImage animatedImageWithImages:images duration:duration];
+    }
+    
+    CFRelease(source);
+    
+    return animatedImage;
 }
 
-+ (UIImage *)imageWithSize:(CGSize)size AndColor:(UIColor *)color {
-    CGRect rect = CGRectMake(0.0f, 0.0f, size.width, size.height);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
++ (float)frameDurationAtIndex:(NSUInteger)index source:(CGImageSourceRef)source {
+    float frameDuration = 0.1f;
+    CFDictionaryRef cfFrameProperties = CGImageSourceCopyPropertiesAtIndex(source, index, nil);
+    NSDictionary *frameProperties = (__bridge NSDictionary *)cfFrameProperties;
+    NSDictionary *gifProperties = frameProperties[(NSString *)kCGImagePropertyGIFDictionary];
     
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
+    NSNumber *delayTimeUnclampedProp = gifProperties[(NSString *)kCGImagePropertyGIFUnclampedDelayTime];
+    if (delayTimeUnclampedProp) {
+        frameDuration = [delayTimeUnclampedProp floatValue];
+    }
+    else {
+        
+        NSNumber *delayTimeProp = gifProperties[(NSString *)kCGImagePropertyGIFDelayTime];
+        if (delayTimeProp) {
+            frameDuration = [delayTimeProp floatValue];
+        }
+    }
     
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+    if (frameDuration < 0.011f) {
+        frameDuration = 0.100f;
+    }
     
-    return image;
+    CFRelease(cfFrameProperties);
+    return frameDuration;
 }
 
-- (UIImage *)circleImageWithParam:(CGFloat)inset AndColor:(UIColor *)color
++ (NSData *)animatedDataWithGIF:(UIImage *)image
 {
-    UIGraphicsBeginImageContext(self.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
- 
-    CGContextSetStrokeColorWithColor(context, color.CGColor);
-    CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
-
-    [[UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:inset] addClip];
-    CGContextStrokePath(context);
+    if (!image.images) {
+        return UIImageJPEGRepresentation(image, 1);
+    }
     
-    [self drawInRect:rect];
-
-    UIImage *newimg = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+    size_t frameCount = image.images.count;
+    NSTimeInterval frameDuration = (/* DISABLES CODE */ (0) <= 0.0 ? image.duration / frameCount : 0);
+    NSDictionary *frameProperties = @{
+                                      (__bridge NSString *)kCGImagePropertyGIFDictionary: @{
+                                              (__bridge NSString *)kCGImagePropertyGIFDelayTime: @(frameDuration)
+                                              }
+                                      };
     
-    return newimg;
+    NSMutableData *mutableData = [NSMutableData data];
+    CGImageDestinationRef destination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)mutableData, kUTTypeGIF, frameCount, NULL);
+    
+    NSDictionary *imageProperties = @{ (__bridge NSString *)kCGImagePropertyGIFDictionary: @{
+                                               (__bridge NSString *)kCGImagePropertyGIFLoopCount: @(0)
+                                               }
+                                       };
+    CGImageDestinationSetProperties(destination, (__bridge CFDictionaryRef)imageProperties);
+    
+    for (size_t idx = 0; idx < image.images.count; idx++) {
+        CGImageDestinationAddImage(destination, [[image.images objectAtIndex:idx] CGImage], (__bridge CFDictionaryRef)frameProperties);
+    }
+    
+    BOOL success = CGImageDestinationFinalize(destination);
+    CFRelease(destination);
+    
+    if (!success) {
+        
+    }
+    
+    return [NSData dataWithData:mutableData];
 }
 
+
+-(UIImage*)scaleToSize:(CGSize)size
+{
+    CGSize oldsize = self.size;
+    
+    CGRect rect;
+    
+    if (size.width/size.height > oldsize.width/oldsize.height) {
+        rect.size.width = size.width;
+        rect.size.height = size.width*oldsize.height/oldsize.width;
+        rect.origin.x = -(size.width - rect.size.width)/2;
+        rect.origin.y = 0;
+    }
+    else{
+        rect.size.width = size.height*oldsize.width/oldsize.height;
+        rect.size.height = size.height;
+        rect.origin.x = 0;
+        rect.origin.y = -(size.height - rect.size.height)/2;
+    }
+    
+    UIGraphicsBeginImageContext(size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
+    UIRectFill(CGRectMake(0, 0, size.width, size.height));//clear background
+    [self drawInRect:rect];
+    UIImage *newimage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newimage;
+}
+
++ (UIImage *)imageFromBundle:(NSString *)name
+{
+    if (name) {
+        NSString *file_name = [NSString stringWithFormat:@"%@/%@.png",@"XWResource.bundle",name];
+        NSString *image_url = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:file_name];
+        
+        return [UIImage imageWithContentsOfFile:image_url];
+    }
+    return nil;
+}
 
 @end

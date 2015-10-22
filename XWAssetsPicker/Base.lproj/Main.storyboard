@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="pmF-zu-LEN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="pmF-zu-LEN">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -12,21 +14,45 @@
                         <viewControllerLayoutGuide type="top" id="AaT-od-l0y"/>
                         <viewControllerLayoutGuide type="bottom" id="Zx3-dq-Fr5"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="MRM-IS-arR">
+                    <view key="view" autoresizesSubviews="NO" contentMode="scaleToFill" id="MRM-IS-arR">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKt-IN-Sf0">
-                                <rect key="frame" x="179" y="235" width="200" height="106"/>
-                                <state key="normal" title="Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKt-IN-Sf0">
+                                <rect key="frame" x="200" y="200" width="200" height="200"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="0Am-NY-Tb3"/>
+                                    <constraint firstAttribute="height" constant="200" id="LLW-qN-mFe"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <state key="normal" title="Open It!">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="buttonClick:" destination="FhI-TV-faD" eventType="touchUpInside" id="kbB-DO-BU4"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by 卖火柴的一点阳光" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpL-d5-Ryj">
+                                <rect key="frame" x="50" y="559" width="500" height="21"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="iGc-KA-n1p"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="HKt-IN-Sf0" firstAttribute="centerX" secondItem="MRM-IS-arR" secondAttribute="centerX" id="9hY-aI-K09"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="LpL-d5-Ryj" secondAttribute="trailing" constant="30" id="As4-LO-Ni5"/>
+                            <constraint firstItem="LpL-d5-Ryj" firstAttribute="leading" secondItem="MRM-IS-arR" secondAttribute="leadingMargin" constant="30" id="Q4r-lZ-9hO"/>
+                            <constraint firstItem="Zx3-dq-Fr5" firstAttribute="top" secondItem="LpL-d5-Ryj" secondAttribute="bottom" constant="20" id="Yet-Sh-rXg"/>
+                            <constraint firstItem="HKt-IN-Sf0" firstAttribute="centerY" secondItem="MRM-IS-arR" secondAttribute="centerY" id="kya-vb-KFU"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bgy-DX-WPL"/>
                 </viewController>
@@ -42,6 +68,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="akA-bt-E4p">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

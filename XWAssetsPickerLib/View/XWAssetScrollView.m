@@ -10,13 +10,10 @@
 #import "XWAssetScrollView.h"
 #import "ALAsset+assetType.h"
 #import "ALAsset+accessibilityLabel.h"
-//#import "NSBundle+CTAssetsPickerController.h"
-//#import "UIImage+CTAssetsPickerController.h"
+#import "UIImage+created.h"
+#import <AVFoundation/AVFoundation.h>
 
-
-
-
-NSString * const CTAssetScrollViewTappedNotification = @"CTAssetScrollViewTappedNotification";
+//NSString * const CTAssetScrollViewTappedNotification = @"CTAssetScrollViewTappedNotification";
 
 
 
@@ -47,7 +44,7 @@ NSString * const CTAssetScrollViewTappedNotification = @"CTAssetScrollViewTapped
         self.decelerationRate               = UIScrollViewDecelerationRateFast;
         self.delegate                       = self;
         
-        [self addNotificationObserver];        
+//        [self addNotificationObserver];        
     }
     
     return self;
@@ -86,7 +83,7 @@ NSString * const CTAssetScrollViewTappedNotification = @"CTAssetScrollViewTapped
 {
     _index = index;
     [self displayImageAtIndex:index];
-    [self addGestureRecognizers];
+
 }
 
 - (void)setFrame:(CGRect)frame
@@ -109,30 +106,40 @@ NSString * const CTAssetScrollViewTappedNotification = @"CTAssetScrollViewTapped
 - (void)addNotificationObserver
 {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver:self];
     
-    [center addObserver:self
-               selector:@selector(playbackStateDidChange:)
-                   name:MPMoviePlayerPlaybackStateDidChangeNotification
-                 object:nil];
-    
-    [center addObserver:self
-               selector:@selector(playbackDidFinish:)
-                   name:MPMoviePlayerPlaybackDidFinishNotification
-                 object:nil];
-    
-    [center addObserver:self
-               selector:@selector(playerWillExitFullscreen:)
-                   name:MPMoviePlayerWillExitFullscreenNotification
-                 object:nil];
+    if (_player) {
+//        [center addObserver:self
+//                   selector:@selector(playbackStateDidChange:)
+//                       name:MPMoviePlayerPlaybackDidFinishNotification
+//                     object:_player];
+        
+        [center addObserver:self
+                   selector:@selector(playbackDidFinish:)
+                       name:MPMoviePlayerPlaybackDidFinishNotification
+                     object:_player];
+        
+        [center addObserver:self
+                   selector:@selector(playerWillExitFullscreen:)
+                       name:MPMoviePlayerWillExitFullscreenNotification
+                     object:_player];
+        
+        [center addObserver:self
+                   selector:@selector(playerDidExitFullscreen:)
+                       name:MPMoviePlayerDidExitFullscreenNotification
+                     object:_player];
+    }
+
 }
 
 - (void)removeNotificationObserver
 {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 
-    [center removeObserver:self name:MPMoviePlayerPlaybackStateDidChangeNotification object:nil];
+//    [center removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
     [center removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
     [center removeObserver:self name:MPMoviePlayerWillExitFullscreenNotification object:nil];
+    [center removeObserver:self name:MPMoviePlayerDidExitFullscreenNotification object:nil];
 }
 
 
@@ -160,13 +167,8 @@ NSString * const CTAssetScrollViewTappedNotification = @"CTAssetScrollViewTapped
         
         if (asset.defaultRepresentation)
         {
-            image = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage
-                                        scale:scale
+            image = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage scale:scale
                                   orientation:UIImageOrientationUp];
-        }
-        else
-        {
-            image = [UIImage imageNamed:@"CTAssetsPickerEmptyAsset"];
         }
         
         // clear the previous image
@@ -189,6 +191,8 @@ NSString * const CTAssetScrollViewTappedNotification = @"CTAssetScrollViewTapped
         
         if ([asset isVideo])
             [self addVideoPlayButton];
+        else
+            [self addGestureRecognizers];
     }
 }
 
@@ -368,6 +372,8 @@ NSString * const CTAssetScrollViewTappedNotification = @"CTAssetScrollViewTapped
     self.player.controlStyle    = MPMovieControlStyleFullscreen;
     self.player.shouldAutoplay  = NO;
 
+    [self addNotificationObserver];
+    
     [self insertSubview:self.player.view belowSubview:self.imageView];
     [self layoutIfNeeded];
 }
@@ -375,14 +381,15 @@ NSString * const CTAssetScrollViewTappedNotification = @"CTAssetScrollViewTapped
 
 - (void)addVideoPlayButton
 {
-    UIImage *image   = [UIImage imageNamed:@"CTAssetsPickerPlay"];
+    UIImage *image   = [UIImage imageFromBundle:@"asset_videoplay_btn"];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    
+    button.frame = CGRectMake(100, ([UIScreen mainScreen].bounds.size.height-[UIScreen mainScreen].bounds.size.width+200)*0.5, [UIScreen mainScreen].bounds.size.width-200, [UIScreen mainScreen].bounds.size.width-200);
+//    button.center = self.center;
     [button setImage:image forState:UIControlStateNormal];
     [button addTarget:self action:@selector(playVideo:) forControlEvents:UIControlEventTouchUpInside];
     
-    button.accessibilityLabel = @"播放";
-    button.translatesAutoresizingMaskIntoConstraints = NO;
+//    button.accessibilityLabel = @"播放";
+//    button.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.playButton = button;
     
@@ -397,9 +404,10 @@ NSString * const CTAssetScrollViewTappedNotification = @"CTAssetScrollViewTapped
 {
     if (!self.player)
         [self createVideoPlayer];
-    
+
     [self.player setControlStyle:MPMovieControlStyleFullscreen];
     [self.player setFullscreen:YES animated:YES];
+    [self.player prepareToPlay];
     [self.player play];
 }
 
@@ -409,27 +417,55 @@ NSString * const CTAssetScrollViewTappedNotification = @"CTAssetScrollViewTapped
 
 - (void)playbackStateDidChange:(NSNotification *)notification
 {
-    MPMoviePlayerController *player = notification.object;
-    if (![player isEqual:self.player] && player.playbackState == MPMoviePlaybackStatePlaying)
-    {
-        [self.player.view removeFromSuperview];
-        self.player = nil;
-    }
+//    [self.player.view removeFromSuperview];
+//    self.player = nil;
+//    [self sendSubviewToBack:self.imageView];
+//    [self bringSubviewToFront:self.playButton];
 }
 
 - (void)playbackDidFinish:(NSNotification *)notification
 {
     MPMoviePlayerController *player = notification.object;
     [player setFullscreen:NO animated:YES];
+    
+
 }
 
 - (void)playerWillExitFullscreen:(NSNotification *)notification
 {
     MPMoviePlayerController *player = notification.object;
     [player setControlStyle:MPMovieControlStyleNone];
+
+    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:player.contentURL options:nil];
     
-    [self sendSubviewToBack:self.imageView];
-    [self bringSubviewToFront:self.playButton];
+    AVAssetImageGenerator *assetImageGenerator =[[AVAssetImageGenerator alloc] initWithAsset:asset];
+    assetImageGenerator.appliesPreferredTrackTransform = YES;
+    assetImageGenerator.apertureMode =AVAssetImageGeneratorApertureModeEncodedPixels;
+    
+    CFTimeInterval thumbnailImageTime = player.currentPlaybackTime;
+    NSError *thumbnailImageGenerationError = nil;
+    CGImageRef thumbnailImageRef = [assetImageGenerator copyCGImageAtTime:CMTimeMakeWithSeconds(thumbnailImageTime, NSEC_PER_SEC) actualTime:NULL error:&thumbnailImageGenerationError];
+    
+    if(!thumbnailImageRef)
+        NSLog(@"thumbnailImageGenerationError %@",thumbnailImageGenerationError);
+    
+    UIImage *thumbnailImage = thumbnailImageRef ? [UIImage imageWithCGImage:thumbnailImageRef] : nil;
+    
+    if (thumbnailImageRef) {
+        CGImageRelease(thumbnailImageRef);
+    }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //
+        self.imageView.image = thumbnailImage;
+    });
+
+}
+
+- (void)playerDidExitFullscreen:(NSNotification *)notification
+{
+    [self.player.view removeFromSuperview];
+    self.player = nil;
 }
 
 @end

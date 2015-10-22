@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD53E9FA1BD8BF6400E18503 /* CompressHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = DD53E9F91BD8BF6400E18503 /* CompressHelp.m */; settings = {ASSET_TAGS = (); }; };
 		DD6B4D841B8572D800CB8776 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6B4D831B8572D800CB8776 /* main.m */; };
 		DD6B4D871B8572D800CB8776 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6B4D861B8572D800CB8776 /* AppDelegate.m */; };
 		DD6B4D8A1B8572D800CB8776 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6B4D891B8572D800CB8776 /* ViewController.m */; };
@@ -28,6 +29,7 @@
 		DDB1EECE1BD61ADF001E1F03 /* XWAssetsPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEC01BD61ADF001E1F03 /* XWAssetsPageViewController.m */; settings = {ASSET_TAGS = (); }; };
 		DDB1EECF1BD61ADF001E1F03 /* XWAssetsPikerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEC21BD61ADF001E1F03 /* XWAssetsPikerViewController.m */; settings = {ASSET_TAGS = (); }; };
 		DDB1EED21BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EED11BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m */; settings = {ASSET_TAGS = (); }; };
+		DDFBC9BC1BD6493800346BBE /* XWResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DDFBC9BB1BD6493800346BBE /* XWResource.bundle */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DD53E9F81BD8BF6400E18503 /* CompressHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompressHelp.h; sourceTree = "<group>"; };
+		DD53E9F91BD8BF6400E18503 /* CompressHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompressHelp.m; sourceTree = "<group>"; };
 		DD6B4D7E1B8572D800CB8776 /* XWAssetsPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XWAssetsPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD6B4D821B8572D800CB8776 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD6B4D831B8572D800CB8776 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -82,6 +86,7 @@
 		DDB1EEC21BD61ADF001E1F03 /* XWAssetsPikerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWAssetsPikerViewController.m; sourceTree = "<group>"; };
 		DDB1EED01BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+timeIntervalFormatter.h"; sourceTree = "<group>"; };
 		DDB1EED11BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+timeIntervalFormatter.m"; sourceTree = "<group>"; };
+		DDFBC9BB1BD6493800346BBE /* XWResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = XWResource.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +170,7 @@
 		DDB1EEA61BD61ADF001E1F03 /* XWAssetsPickerLib */ = {
 			isa = PBXGroup;
 			children = (
+				DDFBC9BA1BD6493800346BBE /* Resource */,
 				DDB1EEA91BD61ADF001E1F03 /* Tools */,
 				DDB1EEB21BD61ADF001E1F03 /* View */,
 				DDB1EEBB1BD61ADF001E1F03 /* XWAssetItemViewController.h */,
@@ -194,6 +200,8 @@
 				DDB1EEAF1BD61ADF001E1F03 /* ALAssetsGroup+attribute.m */,
 				DDB1EEB01BD61ADF001E1F03 /* UIImage+created.h */,
 				DDB1EEB11BD61ADF001E1F03 /* UIImage+created.m */,
+				DD53E9F81BD8BF6400E18503 /* CompressHelp.h */,
+				DD53E9F91BD8BF6400E18503 /* CompressHelp.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -211,6 +219,14 @@
 				DDB1EEBA1BD61ADF001E1F03 /* XWToolBar.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		DDFBC9BA1BD6493800346BBE /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				DDFBC9BB1BD6493800346BBE /* XWResource.bundle */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,6 +278,7 @@
 				TargetAttributes = {
 					DD6B4D7D1B8572D800CB8776 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 74PY265G42;
 					};
 					DD6B4D961B8572D900CB8776 = {
 						CreatedOnToolsVersion = 6.4;
@@ -293,6 +310,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDFBC9BC1BD6493800346BBE /* XWResource.bundle in Resources */,
 				DD6B4D8D1B8572D800CB8776 /* Main.storyboard in Resources */,
 				DD6B4D921B8572D800CB8776 /* LaunchScreen.xib in Resources */,
 				DD6B4D8F1B8572D800CB8776 /* Images.xcassets in Resources */,
@@ -327,6 +345,7 @@
 				DDB1EECB1BD61ADF001E1F03 /* XWToolBar.m in Sources */,
 				DDB1EEC31BD61ADF001E1F03 /* XWAssetsViewControllerTransition.m in Sources */,
 				DDB1EEC41BD61ADF001E1F03 /* ALAsset+accessibilityLabel.m in Sources */,
+				DD53E9FA1BD8BF6400E18503 /* CompressHelp.m in Sources */,
 				DDB1EEC71BD61ADF001E1F03 /* UIImage+created.m in Sources */,
 				DD6B4D871B8572D800CB8776 /* AppDelegate.m in Sources */,
 				DD6B4D841B8572D800CB8776 /* main.m in Sources */,
@@ -412,7 +431,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "b220f82f-6469-4c73-98b9-6a9b9ee12c3a";
+				PROVISIONING_PROFILE = "f2f4382f-e575-4cbd-8b8b-d6a14cf0de2a";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -450,7 +469,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "b220f82f-6469-4c73-98b9-6a9b9ee12c3a";
+				PROVISIONING_PROFILE = "f2f4382f-e575-4cbd-8b8b-d6a14cf0de2a";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -466,7 +485,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xweisoft.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b220f82f-6469-4c73-98b9-6a9b9ee12c3a";
+				PROVISIONING_PROFILE = "f2f4382f-e575-4cbd-8b8b-d6a14cf0de2a";
 			};
 			name = Debug;
 		};
@@ -480,7 +499,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xweisoft.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b220f82f-6469-4c73-98b9-6a9b9ee12c3a";
+				PROVISIONING_PROFILE = "f2f4382f-e575-4cbd-8b8b-d6a14cf0de2a";
 			};
 			name = Release;
 		};

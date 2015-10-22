@@ -10,6 +10,8 @@
 #import "ALAsset+assetType.h"
 #import "ALAsset+accessibilityLabel.h"
 #import "NSDateFormatter+timeIntervalFormatter.h"
+#import "UIImage+created.h"
+#import <Photos/Photos.h>
 
 @interface XWAssetsViewCell ()
 {
@@ -93,13 +95,13 @@
 
 ///@brief 绑定Asset
 - (void)bind:(ALAsset *)asset
-{
+{    
     self.asset  = asset;
     imageView.image  = [UIImage imageWithCGImage:asset.thumbnail];
     
     if ([self.asset isVideo]) {
         durationLb.hidden   = NO;
-        tagIcon.image = [UIImage imageNamed:@"asset_video_icon"];
+        tagIcon.image = [UIImage imageFromBundle:@"asset_video_icon"];
         
         static NSDateFormatter *df = nil;
         if (!df) {
@@ -107,11 +109,11 @@
         }
         
         durationLb.text = [df stringFromTimeInterval:[[asset valueForProperty:ALAssetPropertyDuration] doubleValue]];
-        tagIcon.image       = [UIImage imageNamed:@"asset_video_icon"];
+        tagIcon.image       = [UIImage imageFromBundle:@"asset_video_icon"];
     }
     else if ([self.asset isGIF]) {
         durationLb.hidden   = YES;
-        tagIcon.image       = [UIImage imageNamed:@"asset_gif_icon"];
+        tagIcon.image       = [UIImage imageFromBundle:@"asset_gif_icon"];
     }
     else {
         durationLb.hidden = YES;
@@ -119,10 +121,10 @@
     }
     
     if (self.isAssetSelected) {
-        checkedImageView.image = [UIImage imageNamed:@"asset_select_icon"];
+        checkedImageView.image = [UIImage imageFromBundle:@"asset_select_icon"];
     }
     else {
-        checkedImageView.image = [UIImage imageNamed:@"asset_unselect_icon"];
+        checkedImageView.image = [UIImage imageFromBundle:@"asset_unselect_icon"];
     }
 }
 

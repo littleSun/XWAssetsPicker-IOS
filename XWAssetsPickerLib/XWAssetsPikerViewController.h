@@ -10,40 +10,75 @@
 
 UIKIT_EXTERN NSString *const XWAssetsChangedNotificationKey;
 
-/**
- @method
- @brief 以文件路径构造文件对象
- @discussion
- @param filePath 磁盘文件全路径
- @param displayName 文件对象的显示名
- @result 文件对象
- */
+#define XWASSET_TITLE           @"相册"
+#define PREVIEW_BTN_TITLE       @"预览"
+#define SEND_BTN_TITLE          @"发送"
+
+@class XWAssetsPikerViewController;
+
+@protocol XWAssetsPickerControllerDelegate <NSObject>
+
+@required
+- (void)assetsPickerController:(XWAssetsPikerViewController *)picker didFinishPickingAssets:(NSArray *)assets;
+
+@optional
+
+- (void)assetsPickerControllerDidCancel:(XWAssetsPikerViewController *)picker;
+
+/// @brief是否显示group
+- (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldShowAssetsGroup:(ALAssetsGroup *)group;
+
+/// @brief是否显示asset
+- (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldShowAsset:(ALAsset *)asset;
+
+/// @brief是否将要选择asset
+- (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldSelectAsset:(ALAsset *)asset;
+
+/// @brief是否将要压缩asset
+- (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldCompressAsset:(ALAsset *)asset;
+
+
+@end;
 
 @interface XWAssetsPikerViewController : UIViewController
 
+
 /**
- @brief 相册库
+ @brief 相册库,Library
  @discussion
  */
 @property (nonatomic, strong) ALAssetsLibrary *assetsLibrary;
 
+
 /**
- @brief 筛选器
+ @brief 筛选器,assetsFilter
  @discussion
  */
 @property (nonatomic, strong) ALAssetsFilter *assetsFilter;
 
 /**
- @brief 已经选择的
+ @brief 已经选择的,Selected Files
  @discussion
  */
 @property (nonatomic, strong ,readonly) NSMutableArray *selectedAssets;
 
 /**
- @brief 按钮主题颜色
+ @brief 按钮主题颜色,ThemeColor
  @discussion
  */
 @property (nonatomic, strong) UIColor *assetColor;
+
+/**
+ @brief 委托,delegate
+ @discussion
+ */
+@property (nonatomic, assign) id <XWAssetsPickerControllerDelegate> delegate;
+
+/**
+ @brief 文件缓存地址,the file cache path
+ @discussion
+ */
+@property (nonatomic, copy) NSString *cachePath;
 
 /**
  @brief 已经选择数组的操作入口

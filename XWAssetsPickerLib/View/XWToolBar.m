@@ -8,7 +8,6 @@
 
 #import "XWToolBar.h"
 #import "XWAssetsPikerViewController.h"
-#import "UIImage+created.h"
 
 @interface XWToolBar()
 
@@ -44,7 +43,7 @@
 - (UIBarButtonItem *)previewItem
 {
     if (!_previewItem) {
-        _previewItem = [self createBarButtonWithTitle:@"预览" andColor:self.picker.assetColor andImage:nil andTag:100];
+        _previewItem = [self createBarButtonWithTitle:PREVIEW_BTN_TITLE andColor:self.picker.assetColor andImage:nil andTag:100];
         self.previewBtn = (UIButton *)_previewItem.customView;
     }
     return _previewItem;
@@ -53,7 +52,7 @@
 - (UIBarButtonItem *)labelItem
 {
     if (!_labelItem) {
-        _recordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
+        _recordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 40)];
         _recordLabel.font = [UIFont systemFontOfSize:15];
         _recordLabel.textColor = [UIColor blackColor];
         _labelItem = [[UIBarButtonItem alloc] initWithCustomView:self.recordLabel];
@@ -73,10 +72,10 @@
 {
     if (!_sendItem) {
         
-        _sendItem = [self createBarButtonWithTitle:@"发送" andColor:self.picker.assetColor andImage:nil andTag:101];
+        _sendItem = [self createBarButtonWithTitle:SEND_BTN_TITLE andColor:self.picker.assetColor andImage:nil andTag:101];
         
         UIButton *sendBtn = (UIButton *)_sendItem.customView;
-        sendBtn.titleLabel.font = [UIFont systemFontOfSize:20];
+        sendBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     }
     return _sendItem;
 }

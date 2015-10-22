@@ -10,10 +10,12 @@
 
 @interface UIImage (created)
 
-+ (UIImage *)imageWithColor:(UIColor *)color;
+- (UIImage*)scaleToSize:(CGSize)size;
 
-+ (UIImage *)imageWithSize:(CGSize)size AndColor:(UIColor *)color;
++ (UIImage *)animatedGIFWithData:(NSData *)data;
 
-- (UIImage *)circleImageWithParam:(CGFloat)inset AndColor:(UIColor *)color;
++ (NSData *)animatedDataWithGIF:(UIImage *)image;
+
++ (UIImage *)imageFromBundle:(NSString *)name;
 
 @end

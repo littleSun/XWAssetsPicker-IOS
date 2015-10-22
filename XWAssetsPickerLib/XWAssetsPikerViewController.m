@@ -10,9 +10,16 @@
 #import "XWAssetsPageViewController.h"
 #import "XWAssetsViewControllerTransition.h"
 
+#import "CompressHelp.h"
+
 NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKey";
 
 @interface XWAssetsPikerViewController ()<UIGestureRecognizerDelegate,UINavigationControllerDelegate>
+{
+    CompressHelp *compressHelp;
+    
+    UIActivityIndicatorView *activityView;
+}
 
 @end
 
@@ -41,24 +48,16 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
  */
 - (void)setup
 {
-    
     _assetColor = [UIColor redColor];
     _assetsFilter = [ALAssetsFilter allAssets];
     _selectedAssets = [[NSMutableArray alloc] init];
     
+    compressHelp = [[CompressHelp alloc] init];
+    compressHelp.picker = self;
+    
     [self setupNavigationController];
     
     [self addObserver:self forKeyPath:@"selectedAssets" options:NSKeyValueObservingOptionPrior context:NULL];
-}
-
-+ (ALAssetsLibrary *)defaultAssetsLibrary
-{
-    static dispatch_once_t pred = 0;
-    static ALAssetsLibrary *library = nil;
-    dispatch_once(&pred,^{
-        library = [[ALAssetsLibrary alloc] init];
-    });
-    return library;
 }
 
 #pragma mark - Setup Navigation Controller
@@ -85,6 +84,17 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
     [self.view addSubview:nav.view];
     [self addChildViewController:nav];
     [nav didMoveToParentViewController:self];
+    
+    activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityView.frame = CGRectMake(0, 0, 60, 60);
+    activityView.layer.masksToBounds = YES;
+    activityView.layer.cornerRadius = 5;
+    activityView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
+    activityView.center = nav.view.center;
+    activityView.color = self.assetColor;
+    [nav.view addSubview:activityView];
+    
+    activityView.hidesWhenStopped = YES;
 }
 
 
@@ -93,16 +103,29 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
 {
     if (nil == _assetsLibrary)
     {
-        _assetsLibrary = [self.class defaultAssetsLibrary];
+        _assetsLibrary = [[ALAssetsLibrary alloc] init];;
     }
     
     return _assetsLibrary;
 }
 
+- (NSString *)cachePath
+{
+    if (nil == _cachePath) {
+        _cachePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"XWAsset"];
+        [[NSFileManager defaultManager] createDirectoryAtPath:_cachePath withIntermediateDirectories:YES attributes:NULL error:NULL];
+    }
+    return _cachePath;
+}
+
 - (void)dismiss:(id)sender
 {
-//    if ([self.delegate respondsToSelector:@selector(assetsPickerControllerDidCancel:)])
-//        [self.delegate assetsPickerControllerDidCancel:self];
+    if (compressHelp.isCompressing) {
+        return;
+    }
+    
+    if (_delegate && [self.delegate respondsToSelector:@selector(assetsPickerControllerDidCancel:)])
+        [self.delegate assetsPickerControllerDidCancel:self];
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -110,8 +133,45 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
 
 - (void)finishPickingAssets:(id)sender
 {
-//    if ([self.delegate respondsToSelector:@selector(assetsPickerController:didFinishPickingAssets:)])
-//        [self.delegate assetsPickerController:self didFinishPickingAssets:self.selectedAssets];
+    if (compressHelp.isCompressing) {
+        return;
+    }
+    
+    [compressHelp beginCompress];
+    [activityView startAnimating];
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(assetsPickerController:shouldCompressAsset:)]) {
+        
+        for (ALAsset *asset in self.selectedAssets) {
+            //...
+            if ([self.delegate assetsPickerController:self shouldCompressAsset:asset]) {
+                [compressHelp compressAssetInfo:asset];
+            }
+        }
+    }
+    else {
+        
+        for (ALAsset *asset in self.selectedAssets) {
+            [compressHelp compressAssetInfo:asset];
+        }
+    }
+    
+    __weak XWAssetsPikerViewController *weakSelf = self;
+    [compressHelp compressToEnd:^(NSArray *compressResults) {
+        //
+        __strong XWAssetsPikerViewController *strongSelf = weakSelf;
+        
+        [strongSelf->activityView stopAnimating];
+        [strongSelf finishToSend:compressResults];
+    }];
+}
+
+- (void)finishToSend:(NSArray *)infos
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(assetsPickerController:didFinishPickingAssets:)])
+        [self.delegate assetsPickerController:self didFinishPickingAssets:infos];
+    
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 

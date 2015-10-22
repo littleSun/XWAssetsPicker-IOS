@@ -8,8 +8,15 @@
 #import "XWAssetItemViewController.h"
 #import "XWAssetScrollView.h"
 #import "XWAssetsPikerViewController.h"
-#import "UIImage+created.h"
 #import "XWToolBar.h"
+#import "UIImage+created.h"
+
+@interface XWAssetsPikerViewController ()
+
+- (void)dismiss:(id)sender;
+- (void)finishPickingAssets:(id)sender;
+
+@end
 
 @interface XWAssetsPageViewController ()
 <UIPageViewControllerDataSource, UIPageViewControllerDelegate, XWAssetItemViewControllerDataSource,XWAssetScrollViewDelegate,XWToolBarDelegate>
@@ -107,10 +114,19 @@
 - (void)updateBarItemIndex:(NSUInteger)index
 {
     if ([self.picker.selectedAssets containsObject:[self assetAtIndex:index]]) {
-        [barButton setImage:[UIImage imageNamed:@"asset_select_icon"] forState:UIControlStateNormal];
+
+        UIImage *image = [UIImage imageFromBundle:@"asset_select_icon"];
+        if (image) {
+            [barButton setImage:image forState:UIControlStateNormal];
+        }
     }
     else {
-        [barButton setImage:[UIImage imageNamed:@"asset_unselect_icon"] forState:UIControlStateNormal];
+        
+        UIImage *image = [UIImage imageFromBundle:@"asset_unselect_icon"];
+        if (image) {
+            [barButton setImage:image forState:UIControlStateNormal];
+        }
+        
     }
 }
 
@@ -229,17 +245,36 @@
 -(void)pickerSelectedAssetsChanged:(id)sender
 {
     if (self.picker.selectedAssets.count > 0) {
-        self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d图片",(int)self.picker.selectedAssets.count];
+
+        NSPredicate *photoPredicate = [self predicateOfAssetType:ALAssetTypePhoto];
+        NSPredicate *videoPredicate = [self predicateOfAssetType:ALAssetTypeVideo];
+        
+        NSInteger numberOfPhotos = [self.picker.selectedAssets filteredArrayUsingPredicate:photoPredicate].count;
+        NSInteger numberOfVideos = [self.picker.selectedAssets filteredArrayUsingPredicate:videoPredicate].count;
+        
+        if (numberOfVideos == 0)
+            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d图片", (int)numberOfPhotos];
+        else if (numberOfPhotos == 0)
+            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d视频", (int)numberOfVideos];
+        else
+            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d图片,%d视频", (int)numberOfPhotos, (int)numberOfVideos];
+        
     }
     else {
         self.assetToolBar.recordLabel.text = nil;
     }
 }
 
+- (NSPredicate *)predicateOfAssetType:(NSString *)type
+{
+    return [NSPredicate predicateWithBlock:^BOOL(ALAsset *asset, NSDictionary *bindings) {
+        return [[asset valueForProperty:ALAssetPropertyType] isEqual:type];
+    }];
+}
+
 - (void)toolbarSend:(XWToolBar *)target
 {
-    UIViewController *next = [[UIViewController alloc] init];
-    [self.navigationController pushViewController:next animated:YES];
+    [self.picker finishPickingAssets:NULL];
 }
 
 @end

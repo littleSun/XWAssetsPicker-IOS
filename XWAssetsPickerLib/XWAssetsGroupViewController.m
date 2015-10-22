@@ -12,9 +12,6 @@
 #import "XWAssetsSupplementaryView.h"
 #import "ALAssetsGroup+attribute.h"
 #import "XWAssetsPageViewController.h"
-#import "UIImage+created.h"
-
-#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 #define ASSETS_SPACE    4
 
@@ -61,7 +58,7 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
  */
 - (void)setup
 {
-    self.title = @"照片";
+    self.title = XWASSET_TITLE;
     
     self.assets = [NSMutableDictionary dictionary];
     self.groups = [NSMutableArray array];
@@ -87,20 +84,30 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
         if (group)
         {
             if (group.numberOfAssets > 0) {
-                [group setAssetsFilter:assetsFilter];
-                [weakSelf.groups addObject:group];
-                [weakSelf trimAssets:group];
+                
+                if (self.picker.delegate && [self.picker.delegate respondsToSelector:@selector(assetsPickerController:shouldShowAssetsGroup:)]) {
+                    if ([self.picker.delegate assetsPickerController:self.picker shouldShowAssetsGroup:group]){
+                        
+                        [group setAssetsFilter:assetsFilter];
+                        [weakSelf.groups addObject:group];
+                        [weakSelf trimAssets:group];
+                    }
+                }
+                else {
+                    [group setAssetsFilter:assetsFilter];
+                    [weakSelf.groups addObject:group];
+                    [weakSelf trimAssets:group];
+                }
             }
         }
         else {
-//            NSLog(@"trimGroup 结束");
             [strongSelf->pickerCollectionView reloadData];
         }
     };
     
     ALAssetsLibraryAccessFailureBlock failureBlock = ^(NSError *error)
     {
-        //        [self showNotAllowed];
+
     };
     
     // Enumerate Camera roll first
@@ -130,7 +137,16 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
         [group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
             //
             if (result) {
-                [results addObject:result];
+                
+                if (self.picker.delegate && [self.picker.delegate respondsToSelector:@selector(assetsPickerController:shouldShowAsset:)]) {
+                    if ([self.picker.delegate assetsPickerController:self.picker shouldShowAsset:result]){
+                        
+                        [results addObject:result];
+                    }
+                }
+                else {
+                    [results addObject:result];
+                }
             }
             else {
                 [weakSelf.assets setObject:results forKey:url];
@@ -300,7 +316,20 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
 -(void)pickerSelectedAssetsChanged:(id)sender
 {
     if (self.picker.selectedAssets.count > 0) {
-        self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d图片",(int)self.picker.selectedAssets.count];
+        
+        NSPredicate *photoPredicate = [self predicateOfAssetType:ALAssetTypePhoto];
+        NSPredicate *videoPredicate = [self predicateOfAssetType:ALAssetTypeVideo];
+        
+        NSInteger numberOfPhotos = [self.picker.selectedAssets filteredArrayUsingPredicate:photoPredicate].count;
+        NSInteger numberOfVideos = [self.picker.selectedAssets filteredArrayUsingPredicate:videoPredicate].count;
+        
+        if (numberOfVideos == 0)
+            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d图片", (int)numberOfPhotos];
+        else if (numberOfPhotos == 0)
+            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d视频", (int)numberOfVideos];
+        else
+            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d图片,%d视频", (int)numberOfPhotos, (int)numberOfVideos];
+
         self.assetToolBar.actionEnable = YES;
     }
     else {
@@ -309,6 +338,13 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     }
     
     [pickerCollectionView reloadData];
+}
+
+- (NSPredicate *)predicateOfAssetType:(NSString *)type
+{
+    return [NSPredicate predicateWithBlock:^BOOL(ALAsset *asset, NSDictionary *bindings) {
+        return [[asset valueForProperty:ALAssetPropertyType] isEqual:type];
+    }];
 }
 
 - (void)toolbarPreview:(XWToolBar *)target
@@ -328,7 +364,7 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
 
 - (void)toolbarSend:(XWToolBar *)target
 {
-
+    [self.picker finishPickingAssets:NULL];
 }
 
 @end
