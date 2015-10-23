@@ -33,9 +33,4 @@ piker.assetsFilter = [ALAssetsFilter allAssets];
 //是否启用压缩 ，should compress  
 - (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldCompressAsset:(ALAsset *)asset；  
 
-
-
-
-
-
-                                                                        							by 卖火柴的一点阳光
+							by 卖火柴的一点阳光
