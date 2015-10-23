@@ -70,7 +70,6 @@
     [self setTitleIndex:self.pageIndex];
     [self updateBarItemIndex:self.pageIndex];
     
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pickerSelectedAssetsChanged:) name:XWAssetsChangedNotificationKey object:nil];
 }
 
@@ -253,11 +252,11 @@
         NSInteger numberOfVideos = [self.picker.selectedAssets filteredArrayUsingPredicate:videoPredicate].count;
         
         if (numberOfVideos == 0)
-            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d图片", (int)numberOfPhotos];
+            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d%@", (int)numberOfPhotos,XWASSET_PIC_TAG];
         else if (numberOfPhotos == 0)
-            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d视频", (int)numberOfVideos];
+            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d%@", (int)numberOfVideos,XWASSET_VIDEO_TAG];
         else
-            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d图片,%d视频", (int)numberOfPhotos, (int)numberOfVideos];
+            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d%@,%d%@", (int)numberOfPhotos,XWASSET_PIC_TAG, (int)numberOfVideos,XWASSET_VIDEO_TAG];
         
     }
     else {

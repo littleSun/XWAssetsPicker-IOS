@@ -12,14 +12,17 @@
 @class XWAssetsViewCell;
 @protocol XWAssetsViewCellDelegate <NSObject>
 
+- (void)xwAssetsViewCellBegan:(XWAssetsViewCell *)target;
 - (void)xwAssetsViewCellChecked:(XWAssetsViewCell *)target;
-
+- (void)xwAssetsViewCellTap:(XWAssetsViewCell *)target;
 @end
 
 
 @interface XWAssetsViewCell : UICollectionViewCell
 
 @property (nonatomic ,assign) id <XWAssetsViewCellDelegate> delegate;
+
+@property (nonatomic ,strong) NSIndexPath *indexPath;
 
 @property (nonatomic, strong) UIButton *selectBtn;
 

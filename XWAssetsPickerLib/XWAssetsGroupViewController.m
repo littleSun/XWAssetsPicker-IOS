@@ -18,17 +18,19 @@
 static NSString * XWAssetsViewCellIdentifier = @"XWAssetsViewCellIdentifier";
 static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryViewIdentifier";
 
-@interface XWAssetsPikerViewController ()
+@interface XWAssetsPikerViewController ()<UIGestureRecognizerDelegate>
 
 - (void)dismiss:(id)sender;
 - (void)finishPickingAssets:(id)sender;
 
 @end
 
-@interface XWAssetsGroupViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,XWAssetsViewCellDelegate,XWToolBarDelegate>
-//{
-//    UICollectionView *pickerCollectionView;
-//}
+@interface XWAssetsGroupViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,XWAssetsViewCellDelegate,XWToolBarDelegate,UIGestureRecognizerDelegate>
+{
+    NSIndexPath *slideAtIndexPath;
+    CGPoint slideAtPoint;
+    UIPanGestureRecognizer *panGes;
+}
 
 @property (nonatomic ,strong) NSMutableDictionary *assets;
 
@@ -141,11 +143,11 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
                 if (self.picker.delegate && [self.picker.delegate respondsToSelector:@selector(assetsPickerController:shouldShowAsset:)]) {
                     if ([self.picker.delegate assetsPickerController:self.picker shouldShowAsset:result]){
                         
-                        [results addObject:result];
+                        [results insertObject:result atIndex:0];
                     }
                 }
                 else {
-                    [results addObject:result];
+                    [results insertObject:result atIndex:0];
                 }
             }
             else {
@@ -174,10 +176,15 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     
     pickerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44) collectionViewLayout:layout];
     pickerCollectionView.backgroundColor = [UIColor whiteColor];
-    
     pickerCollectionView.delegate = self;
     pickerCollectionView.dataSource = self;
-    
+
+    panGes = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestureFrom:)];
+    panGes.minimumNumberOfTouches = 1;
+    panGes.maximumNumberOfTouches = 1;
+    panGes.delegate = self;
+    [pickerCollectionView addGestureRecognizer:panGes];
+
     [self.view addSubview:pickerCollectionView];
     
     [pickerCollectionView registerClass:[XWAssetsViewCell class] forCellWithReuseIdentifier:XWAssetsViewCellIdentifier];
@@ -256,6 +263,7 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
 {
     XWAssetsViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:XWAssetsViewCellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
+    cell.indexPath = indexPath;
     
     ALAssetsGroup *group = self.groups[indexPath.section];
     
@@ -277,22 +285,9 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     return cell;
 }
 
-/**
- @brief UICollectionView被选中时调用的方法
- */
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    ALAssetsGroup *group = self.groups[indexPath.section];
-    
-    NSArray *assets = [self.assets objectForKey:group.url];
-
-    NSArray *assets_ = [NSArray arrayWithArray:assets];
-    
-    XWAssetsPageViewController *vc = [[XWAssetsPageViewController alloc] initWithAssets:assets_];
-    vc.pageIndex = indexPath.row;
-    vc.isPreview = NO;
-
-    [self.navigationController pushViewController:vc animated:YES];
+    return NO;
 }
 
 ///@brief 多选 
@@ -304,6 +299,21 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     else {
         [self.picker insertObject:target.asset];
     }
+}
+
+- (void)xwAssetsViewCellTap:(XWAssetsViewCell *)target
+{
+    ALAssetsGroup *group = self.groups[target.indexPath.section];
+    
+    NSArray *assets = [self.assets objectForKey:group.url];
+    
+    NSArray *assets_ = [NSArray arrayWithArray:assets];
+    
+    XWAssetsPageViewController *vc = [[XWAssetsPageViewController alloc] initWithAssets:assets_];
+    vc.pageIndex = target.indexPath.row;
+    vc.isPreview = NO;
+    
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Util
@@ -324,11 +334,11 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
         NSInteger numberOfVideos = [self.picker.selectedAssets filteredArrayUsingPredicate:videoPredicate].count;
         
         if (numberOfVideos == 0)
-            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d图片", (int)numberOfPhotos];
+            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d%@", (int)numberOfPhotos,XWASSET_PIC_TAG];
         else if (numberOfPhotos == 0)
-            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d视频", (int)numberOfVideos];
+            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d%@", (int)numberOfVideos,XWASSET_VIDEO_TAG];
         else
-            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d图片,%d视频", (int)numberOfPhotos, (int)numberOfVideos];
+            self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d%@,%d%@", (int)numberOfPhotos,XWASSET_PIC_TAG, (int)numberOfVideos,XWASSET_VIDEO_TAG];
 
         self.assetToolBar.actionEnable = YES;
     }
@@ -365,6 +375,74 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
 - (void)toolbarSend:(XWToolBar *)target
 {
     [self.picker finishPickingAssets:NULL];
+}
+
+#pragma mark -- PanGestureDelegate
+- (void)handlePanGestureFrom:(UIPanGestureRecognizer *)recognizer
+{
+    if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateFailed || recognizer.state == UIGestureRecognizerStateCancelled) {
+        slideAtPoint = CGPointZero;
+        slideAtIndexPath = nil;
+        return;
+    }
+    
+    CGPoint point = [recognizer locationInView:recognizer.view];
+    NSIndexPath *indexPath = [self.pickerCollectionView indexPathForItemAtPoint:point];
+
+    if (CGPointEqualToPoint(slideAtPoint, CGPointZero)) {
+        slideAtPoint = point;
+        slideAtIndexPath = nil;
+    }
+    else if (recognizer.state == UIGestureRecognizerStateBegan) {
+        slideAtPoint = CGPointZero;
+        slideAtIndexPath = nil;
+    }
+    
+    if (indexPath) {
+        //
+        
+        if (ABS(slideAtPoint.x-point.x) >= 16) {
+          
+            
+            if (!slideAtIndexPath || (slideAtIndexPath && (slideAtIndexPath.section == indexPath.section && slideAtIndexPath.row != indexPath.row))) {
+                //
+      
+                slideAtIndexPath = indexPath;
+                slideAtPoint = point;
+                
+                ALAssetsGroup *group = self.groups[indexPath.section];
+                NSArray *assets = [self.assets objectForKey:group.url];
+                ALAsset *asset = assets[indexPath.row];
+                
+                if ([self.picker.selectedAssets containsObject:asset]) {
+                    [self.picker removeObjectFromArr:asset];
+                }
+                else {
+                    [self.picker insertObject:asset];
+                }
+            }
+        }
+    }
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if ([gestureRecognizer isEqual:panGes] && [otherGestureRecognizer isEqual:self.pickerCollectionView.panGestureRecognizer]){
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    
+    if (!self.picker.openSlideSelectGesture) {
+        return NO;
+    }
+    
+    if (panGes == gestureRecognizer) {
+        CGPoint translation = [panGes velocityInView:self.pickerCollectionView];
+        return fabs(translation.y) < fabs(translation.x);
+    }
+    return YES;
 }
 
 @end

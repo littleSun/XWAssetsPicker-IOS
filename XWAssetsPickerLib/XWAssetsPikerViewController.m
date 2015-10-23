@@ -48,6 +48,8 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
  */
 - (void)setup
 {
+    _openSlideSelectGesture = YES;
+    
     _assetColor = [UIColor redColor];
     _assetsFilter = [ALAssetsFilter allAssets];
     _selectedAssets = [[NSMutableArray alloc] init];

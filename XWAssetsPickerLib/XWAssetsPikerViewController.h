@@ -14,6 +14,9 @@ UIKIT_EXTERN NSString *const XWAssetsChangedNotificationKey;
 #define PREVIEW_BTN_TITLE       @"预览"
 #define SEND_BTN_TITLE          @"发送"
 
+#define XWASSET_PIC_TAG         @"图片"
+#define XWASSET_VIDEO_TAG       @"视频"
+
 @class XWAssetsPikerViewController;
 
 @protocol XWAssetsPickerControllerDelegate <NSObject>
@@ -79,6 +82,12 @@ UIKIT_EXTERN NSString *const XWAssetsChangedNotificationKey;
  @discussion
  */
 @property (nonatomic, copy) NSString *cachePath;
+
+/**
+ @brief 是否打开滑动选择手势, default = YES
+ @discussion
+ */
+@property (nonatomic, assign) BOOL openSlideSelectGesture;
 
 /**
  @brief 已经选择数组的操作入口

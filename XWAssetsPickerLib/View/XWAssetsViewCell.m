@@ -48,13 +48,17 @@
     checkedImageView.contentMode = UIViewContentModeCenter;
     [self.contentView addSubview:checkedImageView];
     
-    _selectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.selectBtn.exclusiveTouch = YES;
-    self.selectBtn.frame = CGRectMake(self.frame.size.width-40, 0, 40, 40);
-    [self.contentView addSubview:self.selectBtn];
-    [self.selectBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+    tap.numberOfTapsRequired = 1;
+    tap.numberOfTouchesRequired = 1;
+    [self.contentView addGestureRecognizer:tap];
+//    _selectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    _selectBtn.userInteractionEnabled = NO;
+//    self.selectBtn.exclusiveTouch = YES;
+//    self.selectBtn.frame = CGRectMake(self.frame.size.width-40, 0, 40, 40);
+//    [self.contentView addSubview:self.selectBtn];
+//    [self.selectBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
 }
-
 
 - (void)buttonClick:(id)sender
 {
@@ -91,6 +95,26 @@
     }
     
     return self;
+}
+
+- (void)tap:(UITapGestureRecognizer *)sender
+{
+    CGPoint point = [sender locationInView:sender.view];
+
+    CGRect rect = CGRectMake(self.frame.size.width-35, 0, 35, 35);
+    
+    if (CGRectContainsPoint(rect, point)) {
+        //
+        if (self.delegate && [_delegate respondsToSelector:@selector(xwAssetsViewCellChecked:)]) {
+            [self.delegate xwAssetsViewCellChecked:self];
+        }
+    }
+    else {
+        if (self.delegate && [_delegate respondsToSelector:@selector(xwAssetsViewCellTap:)]) {
+            [self.delegate xwAssetsViewCellTap:self];
+        }
+    }
+    
 }
 
 ///@brief 绑定Asset

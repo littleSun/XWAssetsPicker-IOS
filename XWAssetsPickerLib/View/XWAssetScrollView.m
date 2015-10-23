@@ -464,6 +464,11 @@
 
 - (void)playerDidExitFullscreen:(NSNotification *)notification
 {
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:self.player];
+    [center removeObserver:self name:MPMoviePlayerWillExitFullscreenNotification object:self.player];
+    [center removeObserver:self name:MPMoviePlayerDidExitFullscreenNotification object:self.player];
+    
     [self.player.view removeFromSuperview];
     self.player = nil;
 }
