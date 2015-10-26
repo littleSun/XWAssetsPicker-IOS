@@ -186,11 +186,18 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     layout.minimumInteritemSpacing = ASSETS_SPACE;
     layout.minimumLineSpacing      = ASSETS_SPACE;
     
-    pickerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64-44) collectionViewLayout:layout];
+    NSLog(@"%@",NSStringFromCGRect(self.view.frame));
+    
+    if (([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)) {
+        pickerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44) collectionViewLayout:layout];
+    }
+    else {
+        pickerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44-44) collectionViewLayout:layout];
+    }
     pickerCollectionView.backgroundColor = [UIColor whiteColor];
     pickerCollectionView.delegate = self;
     pickerCollectionView.dataSource = self;
-
+    
     panGes = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestureFrom:)];
     panGes.minimumNumberOfTouches = 1;
     panGes.maximumNumberOfTouches = 1;
@@ -203,7 +210,13 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     [pickerCollectionView registerClass:[XWAssetsSupplementaryView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:XWAssetsSupplementaryViewIdentifier];
     [pickerCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"haha"];
     
-    _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height-64-44, [UIScreen mainScreen].bounds.size.width, 44) andPicker:self.picker];
+    if (([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)) {
+        _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0,  self.view.frame.size.height-44, self.view.frame.size.width, 44) andPicker:self.picker];
+    }
+    else {
+        _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0,  self.view.frame.size.height-44-44,  self.view.frame.size.width, 44) andPicker:self.picker];
+    }
+    
     self.assetToolBar.tbdelegate = self;
     [self.view addSubview:self.assetToolBar];
     

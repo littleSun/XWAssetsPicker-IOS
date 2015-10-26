@@ -54,14 +54,22 @@
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
+
+
     barButton = [UIButton buttonWithType:UIButtonTypeCustom];
     barButton.frame = CGRectMake(0, 0, 34, 44);
     [barButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithCustomView:barButton];
     self.navigationItem.rightBarButtonItem = barItem;
     
-    _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height-64-44, [UIScreen mainScreen].bounds.size.width, 44) andPicker:self.picker];
+    if (([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)) {
+        //
+        _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44) andPicker:self.picker];
+    }
+    else {
+        _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44-44, self.view.frame.size.width, 44) andPicker:self.picker];
+    }
+
     self.assetToolBar.tbdelegate = self;
     [self.view addSubview:self.assetToolBar];
     
