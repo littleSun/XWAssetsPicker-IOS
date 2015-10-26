@@ -103,6 +103,18 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
             }
         }
         else {
+            
+            for (ALAssetsGroup *group_ in [weakSelf.groups copy]) {
+                if (![weakSelf.assets.allKeys containsObject:group_.url]) {
+                    [weakSelf.groups removeObject:group_];
+                }
+                else {
+                    if ([weakSelf.assets[group_.url] count] == 0) {
+                        [weakSelf.groups removeObject:group_];
+                    }
+                }
+            }
+            
             [strongSelf->pickerCollectionView reloadData];
         }
     };
@@ -174,7 +186,7 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     layout.minimumInteritemSpacing = ASSETS_SPACE;
     layout.minimumLineSpacing      = ASSETS_SPACE;
     
-    pickerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44) collectionViewLayout:layout];
+    pickerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64-44) collectionViewLayout:layout];
     pickerCollectionView.backgroundColor = [UIColor whiteColor];
     pickerCollectionView.delegate = self;
     pickerCollectionView.dataSource = self;
@@ -191,7 +203,7 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     [pickerCollectionView registerClass:[XWAssetsSupplementaryView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:XWAssetsSupplementaryViewIdentifier];
     [pickerCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"haha"];
     
-    _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44) andPicker:self.picker];
+    _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height-64-44, [UIScreen mainScreen].bounds.size.width, 44) andPicker:self.picker];
     self.assetToolBar.tbdelegate = self;
     [self.view addSubview:self.assetToolBar];
     

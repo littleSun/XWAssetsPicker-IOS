@@ -13,9 +13,6 @@
 #import "UIImage+created.h"
 #import <AVFoundation/AVFoundation.h>
 
-//NSString * const CTAssetScrollViewTappedNotification = @"CTAssetScrollViewTappedNotification";
-
-
 
 @interface XWAssetScrollView () <UIScrollViewDelegate>
 
@@ -384,11 +381,10 @@
     UIImage *image   = [UIImage imageFromBundle:@"asset_videoplay_btn"];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(100, ([UIScreen mainScreen].bounds.size.height-[UIScreen mainScreen].bounds.size.width+200)*0.5, [UIScreen mainScreen].bounds.size.width-200, [UIScreen mainScreen].bounds.size.width-200);
-//    button.center = self.center;
     [button setImage:image forState:UIControlStateNormal];
     [button addTarget:self action:@selector(playVideo:) forControlEvents:UIControlEventTouchUpInside];
     
-//    button.accessibilityLabel = @"播放";
+    button.accessibilityLabel = @"播放";
 //    button.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.playButton = button;

@@ -132,6 +132,10 @@
     [myToolBarItems addObject:self.labelItem];
     [myToolBarItems addObject:self.fixItem];
     [myToolBarItems addObject:self.sendItem];
+    
+    self.previewItem.enabled = NO;
+    self.sendItem.enabled = NO;
+    
     [self setItems:myToolBarItems animated:NO];
 }
 

@@ -51,7 +51,9 @@
     self.dataSource             = weakSelf;
     self.delegate               = weakSelf;
 //    self.view.backgroundColor   = [UIColor blackColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
     
     barButton = [UIButton buttonWithType:UIButtonTypeCustom];
     barButton.frame = CGRectMake(0, 0, 34, 44);
@@ -59,7 +61,7 @@
     UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithCustomView:barButton];
     self.navigationItem.rightBarButtonItem = barItem;
     
-    _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44) andPicker:self.picker];
+    _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height-64-44, [UIScreen mainScreen].bounds.size.width, 44) andPicker:self.picker];
     self.assetToolBar.tbdelegate = self;
     [self.view addSubview:self.assetToolBar];
     
@@ -258,9 +260,11 @@
         else
             self.assetToolBar.recordLabel.text = [NSString stringWithFormat:@"已选%d%@,%d%@", (int)numberOfPhotos,XWASSET_PIC_TAG, (int)numberOfVideos,XWASSET_VIDEO_TAG];
         
+        self.assetToolBar.actionEnable = YES;
     }
     else {
         self.assetToolBar.recordLabel.text = nil;
+        self.assetToolBar.actionEnable = NO;
     }
 }
 

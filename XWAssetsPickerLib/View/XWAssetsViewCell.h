@@ -12,7 +12,7 @@
 @class XWAssetsViewCell;
 @protocol XWAssetsViewCellDelegate <NSObject>
 
-- (void)xwAssetsViewCellBegan:(XWAssetsViewCell *)target;
+//- (void)xwAssetsViewCellBegan:(XWAssetsViewCell *)target;
 - (void)xwAssetsViewCellChecked:(XWAssetsViewCell *)target;
 - (void)xwAssetsViewCellTap:(XWAssetsViewCell *)target;
 @end

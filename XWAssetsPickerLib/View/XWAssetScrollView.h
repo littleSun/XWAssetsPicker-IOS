@@ -17,11 +17,6 @@
 //- (void)xwAssetScrollViewDoubleTap:(XWAssetScrollView *)target;;
 @end
 
-
-extern NSString * const CTAssetScrollViewTappedNotification;
-
-
-
 @interface XWAssetScrollView : UIScrollView
 
 @property (nonatomic, weak) id <XWAssetScrollViewDelegate> adelegate;
