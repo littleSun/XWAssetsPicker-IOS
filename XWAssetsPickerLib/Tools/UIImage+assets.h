@@ -1,5 +1,5 @@
 //
-//  UIImage+XWExtend.h
+//  UIImage+assets.h
 //  XWAssetsPicker
 //
 //  Created by 曾超 on 15/8/20.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (created)
+@interface UIImage (assets)
 
 - (UIImage*)scaleToSize:(CGSize)size;
 

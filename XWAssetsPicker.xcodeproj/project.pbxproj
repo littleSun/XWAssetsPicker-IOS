@@ -19,7 +19,7 @@
 		DDB1EEC41BD61ADF001E1F03 /* ALAsset+accessibilityLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEAB1BD61ADF001E1F03 /* ALAsset+accessibilityLabel.m */; settings = {ASSET_TAGS = (); }; };
 		DDB1EEC51BD61ADF001E1F03 /* ALAsset+assetType.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEAD1BD61ADF001E1F03 /* ALAsset+assetType.m */; settings = {ASSET_TAGS = (); }; };
 		DDB1EEC61BD61ADF001E1F03 /* ALAssetsGroup+attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEAF1BD61ADF001E1F03 /* ALAssetsGroup+attribute.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EEC71BD61ADF001E1F03 /* UIImage+created.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEB11BD61ADF001E1F03 /* UIImage+created.m */; settings = {ASSET_TAGS = (); }; };
+		DDB1EEC71BD61ADF001E1F03 /* UIImage+assets.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEB11BD61ADF001E1F03 /* UIImage+assets.m */; settings = {ASSET_TAGS = (); }; };
 		DDB1EEC81BD61ADF001E1F03 /* XWAssetScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEB41BD61ADF001E1F03 /* XWAssetScrollView.m */; settings = {ASSET_TAGS = (); }; };
 		DDB1EEC91BD61ADF001E1F03 /* XWAssetsSupplementaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEB61BD61ADF001E1F03 /* XWAssetsSupplementaryView.m */; settings = {ASSET_TAGS = (); }; };
 		DDB1EECA1BD61ADF001E1F03 /* XWAssetsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEB81BD61ADF001E1F03 /* XWAssetsViewCell.m */; settings = {ASSET_TAGS = (); }; };
@@ -66,8 +66,8 @@
 		DDB1EEAD1BD61ADF001E1F03 /* ALAsset+assetType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAsset+assetType.m"; sourceTree = "<group>"; };
 		DDB1EEAE1BD61ADF001E1F03 /* ALAssetsGroup+attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsGroup+attribute.h"; sourceTree = "<group>"; };
 		DDB1EEAF1BD61ADF001E1F03 /* ALAssetsGroup+attribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsGroup+attribute.m"; sourceTree = "<group>"; };
-		DDB1EEB01BD61ADF001E1F03 /* UIImage+created.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+created.h"; sourceTree = "<group>"; };
-		DDB1EEB11BD61ADF001E1F03 /* UIImage+created.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+created.m"; sourceTree = "<group>"; };
+		DDB1EEB01BD61ADF001E1F03 /* UIImage+assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+assets.h"; sourceTree = "<group>"; };
+		DDB1EEB11BD61ADF001E1F03 /* UIImage+assets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+assets.m"; sourceTree = "<group>"; };
 		DDB1EEB31BD61ADF001E1F03 /* XWAssetScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XWAssetScrollView.h; sourceTree = "<group>"; };
 		DDB1EEB41BD61ADF001E1F03 /* XWAssetScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWAssetScrollView.m; sourceTree = "<group>"; };
 		DDB1EEB51BD61ADF001E1F03 /* XWAssetsSupplementaryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XWAssetsSupplementaryView.h; sourceTree = "<group>"; };
@@ -198,8 +198,8 @@
 				DDB1EEAD1BD61ADF001E1F03 /* ALAsset+assetType.m */,
 				DDB1EEAE1BD61ADF001E1F03 /* ALAssetsGroup+attribute.h */,
 				DDB1EEAF1BD61ADF001E1F03 /* ALAssetsGroup+attribute.m */,
-				DDB1EEB01BD61ADF001E1F03 /* UIImage+created.h */,
-				DDB1EEB11BD61ADF001E1F03 /* UIImage+created.m */,
+				DDB1EEB01BD61ADF001E1F03 /* UIImage+assets.h */,
+				DDB1EEB11BD61ADF001E1F03 /* UIImage+assets.m */,
 				DD53E9F81BD8BF6400E18503 /* CompressHelp.h */,
 				DD53E9F91BD8BF6400E18503 /* CompressHelp.m */,
 			);
@@ -346,7 +346,7 @@
 				DDB1EEC31BD61ADF001E1F03 /* XWAssetsViewControllerTransition.m in Sources */,
 				DDB1EEC41BD61ADF001E1F03 /* ALAsset+accessibilityLabel.m in Sources */,
 				DD53E9FA1BD8BF6400E18503 /* CompressHelp.m in Sources */,
-				DDB1EEC71BD61ADF001E1F03 /* UIImage+created.m in Sources */,
+				DDB1EEC71BD61ADF001E1F03 /* UIImage+assets.m in Sources */,
 				DD6B4D871B8572D800CB8776 /* AppDelegate.m in Sources */,
 				DD6B4D841B8572D800CB8776 /* main.m in Sources */,
 			);

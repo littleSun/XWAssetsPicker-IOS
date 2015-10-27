@@ -9,7 +9,6 @@
 #import "XWAssetScrollView.h"
 #import "XWAssetsPikerViewController.h"
 #import "XWToolBar.h"
-#import "UIImage+created.h"
 
 @interface XWAssetsPikerViewController ()
 

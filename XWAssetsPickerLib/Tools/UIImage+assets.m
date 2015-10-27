@@ -1,16 +1,16 @@
 //
-//  UIImage+XWExtend.m
+//  UIImage+assets.m
 //  XWAssetsPicker
 //
 //  Created by 曾超 on 15/8/20.
 //  Copyright (c) 2015年 小微软件. All rights reserved.
 //
 
-#import "UIImage+created.h"
+#import "UIImage+assets.h"
 #import <ImageIO/ImageIO.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
-@implementation UIImage (created)
+@implementation UIImage (assets)
 
 + (UIImage *)animatedGIFWithData:(NSData *)data {
     if (!data) {

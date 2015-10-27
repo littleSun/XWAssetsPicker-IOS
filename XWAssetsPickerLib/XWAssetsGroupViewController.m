@@ -12,7 +12,6 @@
 #import "XWAssetsSupplementaryView.h"
 #import "ALAssetsGroup+attribute.h"
 #import "XWAssetsPageViewController.h"
-#import "UIImage+created.h"
 
 #define ASSETS_SPACE    4
 

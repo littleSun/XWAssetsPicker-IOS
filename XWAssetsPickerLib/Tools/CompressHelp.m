@@ -11,7 +11,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "UIImage+created.h"
+#import "UIImage+assets.h"
 #import "ALAsset+assetType.h"
 #import "XWAssetsPikerViewController.h"
 

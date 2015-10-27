@@ -93,7 +93,6 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
     activityView.layer.cornerRadius = 5;
     activityView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
     activityView.center = nav.view.center;
-    activityView.color = self.assetColor;
     [nav.view addSubview:activityView];
     
     activityView.hidesWhenStopped = YES;

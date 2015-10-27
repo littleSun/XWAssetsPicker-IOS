@@ -10,7 +10,7 @@
 #import "ALAsset+assetType.h"
 #import "ALAsset+accessibilityLabel.h"
 #import "NSDateFormatter+timeIntervalFormatter.h"
-#import "UIImage+created.h"
+#import "UIImage+assets.h"
 #import <Photos/Photos.h>
 
 @interface XWAssetsViewCell ()

@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "UIImage+assets.h"
 
 UIKIT_EXTERN NSString *const XWAssetsChangedNotificationKey;
 

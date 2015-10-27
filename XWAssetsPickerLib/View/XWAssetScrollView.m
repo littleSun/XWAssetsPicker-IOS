@@ -10,7 +10,7 @@
 #import "XWAssetScrollView.h"
 #import "ALAsset+assetType.h"
 #import "ALAsset+accessibilityLabel.h"
-#import "UIImage+created.h"
+#import "UIImage+assets.h"
 #import <AVFoundation/AVFoundation.h>
 
 
