@@ -12,6 +12,7 @@
 #import "XWAssetsSupplementaryView.h"
 #import "ALAssetsGroup+attribute.h"
 #import "XWAssetsPageViewController.h"
+#import "UIImage+created.h"
 
 #define ASSETS_SPACE    4
 
@@ -111,11 +112,12 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
                 else {
                     if ([weakSelf.assets[group_.url] count] == 0) {
                         [weakSelf.groups removeObject:group_];
+                        [weakSelf.assets removeObjectForKey:group_.url];
                     }
                 }
             }
             
-            [strongSelf->pickerCollectionView reloadData];
+            [strongSelf reloadTableView];
         }
     };
     
@@ -138,6 +140,36 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
                                              usingBlock:resultsBlock
                                            failureBlock:failureBlock];
 }
+
+
+- (void)reloadTableView
+{
+    [pickerCollectionView reloadData];
+    
+    if (self.assets.count == 0) {
+        
+        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, pickerCollectionView.frame.size.width, pickerCollectionView.frame.size.height)];
+        
+        UIImageView *emptyImageView = [[UIImageView alloc] initWithFrame:CGRectMake(pickerCollectionView.frame.size.width*0.5-50, 200, 100, 100)];
+        emptyImageView.image = [UIImage imageFromBundle:@"empty_asset_image"];
+        emptyImageView.contentMode = UIViewContentModeCenter;
+        [bgView addSubview:emptyImageView];
+        
+        UILabel *emptyLb = [[UILabel alloc] initWithFrame:CGRectMake(0,  320, pickerCollectionView.frame.size.width, 22)];
+        emptyLb.text = @"啥资源也没有～～";
+        emptyLb.backgroundColor = [UIColor clearColor];
+        emptyLb.textColor = [UIColor grayColor];
+        emptyLb.textAlignment = NSTextAlignmentCenter;
+        emptyLb.font = [UIFont systemFontOfSize:18];
+        [bgView addSubview:emptyLb];
+        
+        pickerCollectionView.backgroundView = bgView;
+    }
+    else {
+        pickerCollectionView.backgroundView = nil;
+    }
+}
+
 
 - (void)trimAssets:(ALAssetsGroup *)group
 {
