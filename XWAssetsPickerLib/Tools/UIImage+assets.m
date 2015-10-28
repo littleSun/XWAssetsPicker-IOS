@@ -150,7 +150,7 @@
 + (UIImage *)imageFromBundle:(NSString *)name
 {
     if (name) {
-        NSString *file_name = [NSString stringWithFormat:@"%@/%@.png",@"XWResource.bundle",name];
+        NSString *file_name = [NSString stringWithFormat:@"%@/%@.png",@"XWAssetsResource.bundle",name];
         NSString *image_url = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:file_name];
         
         return [UIImage imageWithContentsOfFile:image_url];

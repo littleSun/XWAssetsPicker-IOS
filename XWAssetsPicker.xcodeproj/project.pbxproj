@@ -15,6 +15,7 @@
 		DD6B4D8F1B8572D800CB8776 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD6B4D8E1B8572D800CB8776 /* Images.xcassets */; };
 		DD6B4D921B8572D800CB8776 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD6B4D901B8572D800CB8776 /* LaunchScreen.xib */; };
 		DD6B4D9E1B8572D900CB8776 /* XWAssetsPickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6B4D9D1B8572D900CB8776 /* XWAssetsPickerTests.m */; };
+		DD8663601BE0715D0017DB82 /* XWAssetsResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DD86635F1BE0715D0017DB82 /* XWAssetsResource.bundle */; settings = {ASSET_TAGS = (); }; };
 		DDB1EEC31BD61ADF001E1F03 /* XWAssetsViewControllerTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEA81BD61ADF001E1F03 /* XWAssetsViewControllerTransition.m */; settings = {ASSET_TAGS = (); }; };
 		DDB1EEC41BD61ADF001E1F03 /* ALAsset+accessibilityLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEAB1BD61ADF001E1F03 /* ALAsset+accessibilityLabel.m */; settings = {ASSET_TAGS = (); }; };
 		DDB1EEC51BD61ADF001E1F03 /* ALAsset+assetType.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEAD1BD61ADF001E1F03 /* ALAsset+assetType.m */; settings = {ASSET_TAGS = (); }; };
@@ -29,7 +30,6 @@
 		DDB1EECE1BD61ADF001E1F03 /* XWAssetsPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEC01BD61ADF001E1F03 /* XWAssetsPageViewController.m */; settings = {ASSET_TAGS = (); }; };
 		DDB1EECF1BD61ADF001E1F03 /* XWAssetsPikerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEC21BD61ADF001E1F03 /* XWAssetsPikerViewController.m */; settings = {ASSET_TAGS = (); }; };
 		DDB1EED21BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EED11BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m */; settings = {ASSET_TAGS = (); }; };
-		DDFBC9BC1BD6493800346BBE /* XWResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DDFBC9BB1BD6493800346BBE /* XWResource.bundle */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +58,7 @@
 		DD6B4D971B8572D900CB8776 /* XWAssetsPickerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XWAssetsPickerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD6B4D9C1B8572D900CB8776 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD6B4D9D1B8572D900CB8776 /* XWAssetsPickerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XWAssetsPickerTests.m; sourceTree = "<group>"; };
+		DD86635F1BE0715D0017DB82 /* XWAssetsResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = XWAssetsResource.bundle; sourceTree = "<group>"; };
 		DDB1EEA71BD61ADF001E1F03 /* XWAssetsViewControllerTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XWAssetsViewControllerTransition.h; sourceTree = "<group>"; };
 		DDB1EEA81BD61ADF001E1F03 /* XWAssetsViewControllerTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWAssetsViewControllerTransition.m; sourceTree = "<group>"; };
 		DDB1EEAA1BD61ADF001E1F03 /* ALAsset+accessibilityLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAsset+accessibilityLabel.h"; sourceTree = "<group>"; };
@@ -86,7 +87,6 @@
 		DDB1EEC21BD61ADF001E1F03 /* XWAssetsPikerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWAssetsPikerViewController.m; sourceTree = "<group>"; };
 		DDB1EED01BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+timeIntervalFormatter.h"; sourceTree = "<group>"; };
 		DDB1EED11BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+timeIntervalFormatter.m"; sourceTree = "<group>"; };
-		DDFBC9BB1BD6493800346BBE /* XWResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = XWResource.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,7 +224,7 @@
 		DDFBC9BA1BD6493800346BBE /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				DDFBC9BB1BD6493800346BBE /* XWResource.bundle */,
+				DD86635F1BE0715D0017DB82 /* XWAssetsResource.bundle */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -310,8 +310,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDFBC9BC1BD6493800346BBE /* XWResource.bundle in Resources */,
 				DD6B4D8D1B8572D800CB8776 /* Main.storyboard in Resources */,
+				DD8663601BE0715D0017DB82 /* XWAssetsResource.bundle in Resources */,
 				DD6B4D921B8572D800CB8776 /* LaunchScreen.xib in Resources */,
 				DD6B4D8F1B8572D800CB8776 /* Images.xcassets in Resources */,
 			);
