@@ -66,6 +66,8 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     self.groups = [NSMutableArray array];
     
     [self trimGroup];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(trimGroup) name:ALAssetsLibraryChangedNotification object:nil];
 }
 
 - (void)dealloc
@@ -75,6 +77,9 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
 
 - (void)trimGroup
 {
+    [self.groups removeAllObjects];
+    [self.assets removeAllObjects];
+    
     __weak XWAssetsGroupViewController *weakSelf = self;
     
     ALAssetsFilter *assetsFilter = self.picker.assetsFilter;
