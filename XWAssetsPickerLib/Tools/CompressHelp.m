@@ -132,6 +132,9 @@
             CGFloat minScale = MIN(widthScale, heightScale);
             imaged = [image scaleToSize:CGSizeMake(image.size.width/minScale, image.size.height/minScale)];
         }
+        else {
+            imaged = image;
+        }
         
         if (isExecuted) {
             imaged = [self zoomFileSize:imaged];

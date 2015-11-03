@@ -97,6 +97,12 @@ UIKIT_EXTERN NSString *const XWAssetsChangedNotificationKey;
 @property (nonatomic, assign) NSInteger tag;
 
 /**
+ @brief 是否自动写入缓存文件, isImageWriteToPath
+ @discussion
+ */
+@property (nonatomic, assign) BOOL isImageWriteToPath;
+
+/**
  @brief 已经选择数组的操作入口
  @discussion
  */
