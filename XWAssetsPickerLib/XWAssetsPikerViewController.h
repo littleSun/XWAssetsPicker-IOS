@@ -91,6 +91,12 @@ UIKIT_EXTERN NSString *const XWAssetsChangedNotificationKey;
 @property (nonatomic, assign) BOOL openSlideSelectGesture;
 
 /**
+ @brief 标签, tag
+ @discussion
+ */
+@property (nonatomic, assign) NSInteger tag;
+
+/**
  @brief 已经选择数组的操作入口
  @discussion
  */
