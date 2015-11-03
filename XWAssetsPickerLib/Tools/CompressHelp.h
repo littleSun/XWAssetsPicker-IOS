@@ -26,7 +26,7 @@ typedef void (^CompressHelpDidEndBlock)(NSArray *compressResults);
 
 @property (nonatomic ,strong) CompressHelpDidEndBlock complete;
 
-- (BOOL)compressAssetInfo:(ALAsset *)asset;
+- (BOOL)compressAssetInfo:(ALAsset *)asset execute:(BOOL)isExecuted;
 
 - (void)beginCompress;
 - (void)compressToEnd:(CompressHelpDidEndBlock)completed;

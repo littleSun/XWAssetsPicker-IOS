@@ -11,6 +11,8 @@
 
 @interface ViewController ()<XWAssetsPickerControllerDelegate>
 
+@property (nonatomic ,assign) NSInteger max;
+
 @end
 
 @implementation ViewController
@@ -23,6 +25,8 @@
 
 - (IBAction)buttonClick:(id)sender
 {
+    self.max = 10;
+    
     XWAssetsPikerViewController *piker = [[XWAssetsPikerViewController alloc] init];
     piker.delegate = self;
     piker.assetsFilter = [ALAssetsFilter allAssets];
@@ -43,6 +47,14 @@
 
 - (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldSelectAsset:(ALAsset *)asset
 {
+    if (picker.selectedAssets.count >= self.max) {
+        //...Alert
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reach to Max" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
+        
+        return NO;
+    }
     return YES;
 }
 

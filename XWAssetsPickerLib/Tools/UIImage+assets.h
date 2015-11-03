@@ -12,7 +12,7 @@
 
 - (UIImage*)scaleToSize:(CGSize)size;
 
-+ (UIImage *)animatedGIFWithData:(NSData *)data;
++ (UIImage *)animatedGIFWithData:(NSData *)data isCompress:(BOOL)isCompress;
 
 + (NSData *)animatedDataWithGIF:(UIImage *)image;
 

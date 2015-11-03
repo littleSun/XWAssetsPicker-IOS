@@ -145,15 +145,13 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
         
         for (ALAsset *asset in self.selectedAssets) {
             //...
-            if ([self.delegate assetsPickerController:self shouldCompressAsset:asset]) {
-                [compressHelp compressAssetInfo:asset];
-            }
+            BOOL iscompress = [self.delegate assetsPickerController:self shouldCompressAsset:asset];
+            [compressHelp compressAssetInfo:asset execute:iscompress];
         }
     }
     else {
-        
         for (ALAsset *asset in self.selectedAssets) {
-            [compressHelp compressAssetInfo:asset];
+            [compressHelp compressAssetInfo:asset execute:YES];
         }
     }
     
@@ -179,6 +177,12 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
 #pragma mark -- ArrayUtil
 - (void)insertObject:(NSObject *)object
 {
+    if (_delegate && [_delegate respondsToSelector:@selector(assetsPickerController:shouldSelectAsset:)]) {
+        if (![self.delegate assetsPickerController:self shouldSelectAsset:(ALAsset *)object]) {
+            return;
+        }
+    }
+
     NSInteger index = self.selectedAssets.count;
     
     [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:@"selectedAssets"];

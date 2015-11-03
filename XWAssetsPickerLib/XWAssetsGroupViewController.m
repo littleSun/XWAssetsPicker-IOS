@@ -383,7 +383,6 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     return (XWAssetsPikerViewController *)self.navigationController.parentViewController;
 }
 
-
 -(void)pickerSelectedAssetsChanged:(id)sender
 {
     if (self.picker.selectedAssets.count > 0) {

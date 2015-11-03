@@ -12,7 +12,7 @@
 
 @implementation UIImage (assets)
 
-+ (UIImage *)animatedGIFWithData:(NSData *)data {
++ (UIImage *)animatedGIFWithData:(NSData *)data isCompress:(BOOL)isCompress {
     if (!data) {
         return nil;
     }
@@ -32,7 +32,19 @@
         NSTimeInterval duration = 0.0f;
         
         for (size_t i = 0; i < count; i++) {
-            CGImageRef image = CGImageSourceCreateImageAtIndex(source, i, NULL);
+            
+            CGImageRef image = nil;
+            
+            if (isCompress) {
+                NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithCapacity:3];
+                [options setObject:[NSNumber numberWithBool:YES] forKey:(id)kCGImageSourceCreateThumbnailFromImageAlways];
+                [options setObject:[NSNumber numberWithFloat:160] forKey:(id)kCGImageSourceThumbnailMaxPixelSize];
+                [options setObject:[NSNumber numberWithBool:NO] forKey:(id)kCGImageSourceCreateThumbnailWithTransform];
+                image = CGImageSourceCreateThumbnailAtIndex(source, i, (__bridge CFDictionaryRef)options);
+            }
+            else {
+                image = CGImageSourceCreateImageAtIndex(source, i, NULL);
+            }
             
             duration += [self frameDurationAtIndex:i source:source];
             

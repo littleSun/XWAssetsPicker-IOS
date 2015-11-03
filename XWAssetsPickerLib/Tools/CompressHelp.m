@@ -28,14 +28,14 @@
 }
 
 //compress
-- (BOOL)compressAssetInfo:(ALAsset *)asset
+- (BOOL)compressAssetInfo:(ALAsset *)asset execute:(BOOL)isExecuted
 {
     if ([asset isGIF]) {
         
         dispatch_group_enter(compressGroup);
         
         dispatch_async(dispatchQueue, ^(){
-            [self compressGIF:asset];
+            [self compressGIF:asset execute:isExecuted];
         });
         return YES;
     }
@@ -44,7 +44,7 @@
         dispatch_group_enter(compressGroup);
         
         dispatch_async(dispatchQueue, ^(){
-            [self compressPNG:asset];
+            [self compressPNG:asset execute:isExecuted];
         });
         return YES;
     }
@@ -54,7 +54,7 @@
         
         dispatch_async(dispatchQueue, ^(){
         
-            [self convertToMp4:asset];
+            [self convertToMp4:asset execute:isExecuted];
         });
 
         return YES;
@@ -79,7 +79,7 @@
     return imaged;
 }
 
-- (void)compressGIF:(ALAsset *)asset
+- (void)compressGIF:(ALAsset *)asset execute:(BOOL)isExecuted
 {
     //    __weak XWAssetsPikerViewController *weakSelf = self;
 //    __block NSMutableDictionary *info_ = info;
@@ -89,12 +89,57 @@
     NSUInteger bufferSize = [rep getBytes:imageBuffer fromOffset:0.0 length:(long)rep.size error:nil];
     NSData *imageData = [NSData dataWithBytesNoCopy:imageBuffer length:bufferSize freeWhenDone:YES];
     
-    UIImage *image = [UIImage animatedGIFWithData:imageData];
-    
-    if (image) {
-        NSData *data = [UIImage animatedDataWithGIF:image];
+    if (isExecuted) {
+        UIImage *image = [UIImage animatedGIFWithData:imageData isCompress:isExecuted];
+        if (image) {
+            imageData = [UIImage animatedDataWithGIF:image];
+        }
+    }
+
+    if (imageData) {
         NSString *imagePath = self.picker.cachePath;
         imagePath = [imagePath stringByAppendingFormat:@"/%@-image.gif", [[NSUUID UUID] UUIDString]];
+        
+        [imageData writeToFile:imagePath atomically:YES];
+        
+        NSMutableDictionary *info = [NSMutableDictionary dictionary];
+        [info setObject:(NSString *)kUTTypeImage forKey:UIImagePickerControllerMediaType];
+        [info setObject:[NSURL fileURLWithPath:imagePath] forKey:UIImagePickerControllerMediaURL];
+        
+        [self.results addObject:info];
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //
+        dispatch_group_leave(compressGroup);
+    });
+}
+
+- (void)compressPNG:(ALAsset *)asset execute:(BOOL)isExecuted
+{
+
+    UIImage *image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]];
+    
+    if (image) {
+        
+        UIImage *imaged = nil;
+        
+        CGFloat widthScale = image.size.width/[UIScreen mainScreen].bounds.size.width;
+        CGFloat heightScale = image.size.height/[UIScreen mainScreen].bounds.size.height;
+        
+        if (widthScale > 1.0 && heightScale > 1.0) {
+            //
+            CGFloat minScale = MIN(widthScale, heightScale);
+            imaged = [image scaleToSize:CGSizeMake(image.size.width/minScale, image.size.height/minScale)];
+        }
+        
+        if (isExecuted) {
+            imaged = [self zoomFileSize:imaged];
+        }
+        
+        NSData *data = [UIImage animatedDataWithGIF:imaged];
+        NSString *imagePath = self.picker.cachePath;
+        imagePath = [imagePath stringByAppendingFormat:@"/%@-image.jpg", [[NSUUID UUID] UUIDString]];
         
         [data writeToFile:imagePath atomically:YES];
         
@@ -103,8 +148,8 @@
         [info setObject:[NSURL fileURLWithPath:imagePath] forKey:UIImagePickerControllerMediaURL];
         
         [self.results addObject:info];
-        
     }
+    
     
     dispatch_async(dispatch_get_main_queue(), ^{
         //
@@ -112,63 +157,7 @@
     });
 }
 
-- (void)compressPNG:(ALAsset *)asset
-{
-
-    UIImage *image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]];
-    
-    if (image) {
-        
-        CGFloat widthScale = image.size.width/[UIScreen mainScreen].bounds.size.width;
-        CGFloat heightScale = image.size.height/[UIScreen mainScreen].bounds.size.height;
-        
-        if (widthScale > 1.0 && heightScale > 1.0) {
-            //
-            CGFloat minScale = MIN(widthScale, heightScale);
-            
-            UIImage *imaged = [image scaleToSize:CGSizeMake(image.size.width/minScale, image.size.height/minScale)];
-            
-            UIImage *imaged2 = [self zoomFileSize:imaged];
-            
-            NSData *data = [UIImage animatedDataWithGIF:imaged2];
-           
-            NSString *imagePath = self.picker.cachePath;
-            imagePath = [imagePath stringByAppendingFormat:@"/%@-image.jpg", [[NSUUID UUID] UUIDString]];
-            
-            [data writeToFile:imagePath atomically:YES];
-            
-            NSMutableDictionary *info = [NSMutableDictionary dictionary];
-            [info setObject:(NSString *)kUTTypeImage forKey:UIImagePickerControllerMediaType];
-            [info setObject:[NSURL fileURLWithPath:imagePath] forKey:UIImagePickerControllerMediaURL];
-         
-            [self.results addObject:info];
-        }
-        else {
-            
-            UIImage *imaged = [self zoomFileSize:image];
-
-            NSData *data = [UIImage animatedDataWithGIF:imaged];
-            NSString *imagePath = self.picker.cachePath;
-            imagePath = [imagePath stringByAppendingFormat:@"/%@-image.jpg", [[NSUUID UUID] UUIDString]];
-            
-            [data writeToFile:imagePath atomically:YES];
-
-            NSMutableDictionary *info = [NSMutableDictionary dictionary];
-            [info setObject:(NSString *)kUTTypeImage forKey:UIImagePickerControllerMediaType];
-            [info setObject:[NSURL fileURLWithPath:imagePath] forKey:UIImagePickerControllerMediaURL];
-            
-            [self.results addObject:info];
-            
-        }
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        //
-        dispatch_group_leave(compressGroup);
-    });
-}
-
-- (void)convertToMp4:(ALAsset *)asset
+- (void)convertToMp4:(ALAsset *)asset execute:(BOOL)isExecuted
 {
     __weak CompressHelp *weakSelf = self;
 
