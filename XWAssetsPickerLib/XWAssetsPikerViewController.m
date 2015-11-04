@@ -102,11 +102,14 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
 //Lazy load assetsLibrary. User will be able to set his custom assetsLibrary
 - (ALAssetsLibrary *)assetsLibrary
 {
-    if (nil == _assetsLibrary)
-    {
-        _assetsLibrary = [[ALAssetsLibrary alloc] init];;
+    if (nil == _assetsLibrary) {
+        static ALAssetsLibrary *assetsLibrary_ = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            assetsLibrary_ = [[ALAssetsLibrary alloc] init];
+        });
+        _assetsLibrary = assetsLibrary_;
     }
-    
     return _assetsLibrary;
 }
 
@@ -182,7 +185,7 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
             return;
         }
     }
-
+    
     NSInteger index = self.selectedAssets.count;
     
     [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:@"selectedAssets"];

@@ -16,6 +16,8 @@
  */
 @property (nonatomic, assign) NSInteger pageIndex;
 
+@property (nonatomic, strong) NSIndexPath *indexPath;
+
 @property (nonatomic, assign) BOOL isPreview;
 
 - (id)initWithAssets:(NSArray *)assets;

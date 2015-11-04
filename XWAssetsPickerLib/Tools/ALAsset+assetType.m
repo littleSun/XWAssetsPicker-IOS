@@ -35,4 +35,10 @@
     return NO;
 }
 
+- (NSURL *)url
+{
+    return [self valueForProperty:ALAssetPropertyAssetURL];
+}
+
+
 @end

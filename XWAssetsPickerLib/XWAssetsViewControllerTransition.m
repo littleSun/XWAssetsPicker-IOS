@@ -37,7 +37,7 @@
         UIView *cellView = nil;
         
         if (!toVC.isPreview) {
-            NSIndexPath *indexPath              = [NSIndexPath indexPathForItem:toVC.pageIndex inSection:0];
+            NSIndexPath *indexPath              = toVC.indexPath;
             cellView        = [fromVC.pickerCollectionView cellForItemAtIndexPath:indexPath];
         }
         else {
@@ -108,7 +108,7 @@
         UIView *cellView        = nil;
         
         if (!fromVC.isPreview) {
-            NSIndexPath *indexPath              = [NSIndexPath indexPathForItem:fromVC.pageIndex inSection:0];
+            NSIndexPath *indexPath              = fromVC.indexPath;
             
             // Scroll to index path
             [toVC.pickerCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:NO];

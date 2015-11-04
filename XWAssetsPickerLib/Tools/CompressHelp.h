@@ -30,4 +30,5 @@ typedef void (^CompressHelpDidEndBlock)(NSArray *compressResults);
 
 - (void)beginCompress;
 - (void)compressToEnd:(CompressHelpDidEndBlock)completed;
+
 @end

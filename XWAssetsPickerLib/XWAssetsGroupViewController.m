@@ -150,6 +150,8 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
 {
     [pickerCollectionView reloadData];
     
+    [self pickerSelectedAssetsChanged:nil];
+    
     if (self.assets.count == 0) {
         
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, pickerCollectionView.frame.size.width, pickerCollectionView.frame.size.height)];
@@ -192,10 +194,24 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
                     if ([self.picker.delegate assetsPickerController:self.picker shouldShowAsset:result]){
                         
                         [results insertObject:result atIndex:0];
+                        
+                        if (self.picker.delegate && [self.picker.delegate respondsToSelector:@selector(assetsPickerController:shouldShowSelectAsset:)]) {
+                            if ([self.picker.delegate assetsPickerController:self.picker shouldShowSelectAsset:result]){
+                                
+                                [self.picker.selectedAssets addObject:result];
+                            }
+                        }
                     }
                 }
                 else {
                     [results insertObject:result atIndex:0];
+                    
+                    if (self.picker.delegate && [self.picker.delegate respondsToSelector:@selector(assetsPickerController:shouldShowSelectAsset:)]) {
+                        if ([self.picker.delegate assetsPickerController:self.picker shouldShowSelectAsset:result]){
+                            
+                            [self.picker.selectedAssets addObject:result];
+                        }
+                    }
                 }
             }
             else {
@@ -372,6 +388,7 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     
     XWAssetsPageViewController *vc = [[XWAssetsPageViewController alloc] initWithAssets:assets_];
     vc.pageIndex = target.indexPath.row;
+    vc.indexPath = target.indexPath;
     vc.isPreview = NO;
     
     [self.navigationController pushViewController:vc animated:YES];
@@ -427,6 +444,7 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     
     XWAssetsPageViewController *vc = [[XWAssetsPageViewController alloc] initWithAssets:assets_];
     vc.pageIndex = 0;
+    vc.indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     vc.isPreview = YES;
 
     [self.navigationController pushViewController:vc animated:YES];

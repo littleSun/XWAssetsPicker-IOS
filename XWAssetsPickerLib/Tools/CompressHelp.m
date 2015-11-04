@@ -53,10 +53,10 @@
         dispatch_group_enter(compressGroup);
         
         dispatch_async(dispatchQueue, ^(){
-        
+            
             [self convertToMp4:asset execute:isExecuted];
         });
-
+        
         return YES;
     }
     return NO;
@@ -82,21 +82,16 @@
 - (void)compressGIF:(ALAsset *)asset execute:(BOOL)isExecuted
 {
     //    __weak XWAssetsPikerViewController *weakSelf = self;
-//    __block NSMutableDictionary *info_ = info;
+    //    __block NSMutableDictionary *info_ = info;
     ALAssetRepresentation *rep = asset.defaultRepresentation;
     
     Byte *imageBuffer = (Byte*)malloc((size_t)rep.size);
     NSUInteger bufferSize = [rep getBytes:imageBuffer fromOffset:0.0 length:(long)rep.size error:nil];
     NSData *imageData = [NSData dataWithBytesNoCopy:imageBuffer length:bufferSize freeWhenDone:YES];
     
-    if (isExecuted) {
-        UIImage *image = [UIImage animatedGIFWithData:imageData isCompress:isExecuted];
-        if (image) {
-            imageData = [UIImage animatedDataWithGIF:image];
-        }
-    }
-
-    if (imageData) {
+    UIImage *imaged = [UIImage animatedGIFWithData:imageData isCompress:isExecuted];
+    
+    if (imaged) {
         NSString *imagePath = self.picker.cachePath;
         imagePath = [imagePath stringByAppendingFormat:@"/%@-image.gif", [[NSUUID UUID] UUIDString]];
         
@@ -104,7 +99,13 @@
         
         NSMutableDictionary *info = [NSMutableDictionary dictionary];
         [info setObject:(NSString *)kUTTypeImage forKey:UIImagePickerControllerMediaType];
-        [info setObject:[NSURL fileURLWithPath:imagePath] forKey:UIImagePickerControllerMediaURL];
+        [info setObject:imaged forKey:UIImagePickerControllerOriginalImage];
+        
+        if (self.picker.isImageWriteToPath) {
+            [info setObject:[NSURL fileURLWithPath:imagePath] forKey:UIImagePickerControllerMediaURL];
+            NSData *data = [UIImage animatedDataWithGIF:imaged];
+            [data writeToFile:imagePath atomically:YES];
+        }
         
         [self.results addObject:info];
     }
@@ -117,7 +118,7 @@
 
 - (void)compressPNG:(ALAsset *)asset execute:(BOOL)isExecuted
 {
-
+    
     UIImage *image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]];
     
     if (image) {
@@ -140,15 +141,19 @@
             imaged = [self zoomFileSize:imaged];
         }
         
-        NSData *data = [UIImage animatedDataWithGIF:imaged];
         NSString *imagePath = self.picker.cachePath;
         imagePath = [imagePath stringByAppendingFormat:@"/%@-image.jpg", [[NSUUID UUID] UUIDString]];
         
-        [data writeToFile:imagePath atomically:YES];
         
         NSMutableDictionary *info = [NSMutableDictionary dictionary];
         [info setObject:(NSString *)kUTTypeImage forKey:UIImagePickerControllerMediaType];
-        [info setObject:[NSURL fileURLWithPath:imagePath] forKey:UIImagePickerControllerMediaURL];
+        [info setObject:imaged forKey:UIImagePickerControllerOriginalImage];
+        
+        if (self.picker.isImageWriteToPath) {
+            [info setObject:[NSURL fileURLWithPath:imagePath] forKey:UIImagePickerControllerMediaURL];
+            NSData *data = [UIImage animatedDataWithGIF:imaged];
+            [data writeToFile:imagePath atomically:YES];
+        }
         
         [self.results addObject:info];
     }
@@ -163,7 +168,7 @@
 - (void)convertToMp4:(ALAsset *)asset execute:(BOOL)isExecuted
 {
     __weak CompressHelp *weakSelf = self;
-
+    
     NSURL *url = [asset valueForProperty:ALAssetPropertyAssetURL];
     
     if ([url.pathExtension.lowercaseString isEqualToString:@"mp4"]) {
@@ -171,7 +176,7 @@
         NSString *mp4Path = self.picker.cachePath;
         mp4Path = [mp4Path stringByAppendingFormat:@"/%@-video.mp4", [[NSUUID UUID] UUIDString]];
         
-//        NSError *error = nil;
+        //        NSError *error = nil;
         [[NSFileManager defaultManager] copyItemAtURL:url toURL:[NSURL fileURLWithPath:mp4Path] error:NULL];
         
         NSMutableDictionary *info = [NSMutableDictionary dictionary];
@@ -206,7 +211,7 @@
                 break;
             case AVAssetExportSessionStatusCompleted:
             {
-
+                
                 NSMutableDictionary *info = [NSMutableDictionary dictionary];
                 [info setObject:(NSString *)kUTTypeMovie forKey:UIImagePickerControllerMediaType];
                 [info setObject:[NSURL fileURLWithPath:mp4Path] forKey:UIImagePickerControllerMediaURL];
@@ -217,7 +222,7 @@
                     //
                     dispatch_group_leave(compressGroup);
                 });
-      
+                
             }
                 break;
             default:
@@ -229,7 +234,7 @@
 - (void)beginCompress
 {
     [self.results removeAllObjects];
-
+    
     self.isCompressing = YES;
     
     if (compressGroup) {
@@ -250,7 +255,7 @@
         __strong CompressHelp *strongSelf = weakSelf;
         
         strongSelf.isCompressing = NO;
-    
+        
         if (strongSelf.complete) {
             strongSelf.complete(strongSelf.results);
         }

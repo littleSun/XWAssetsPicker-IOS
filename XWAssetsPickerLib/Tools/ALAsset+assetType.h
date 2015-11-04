@@ -8,12 +8,12 @@
 
 #import <AssetsLibrary/AssetsLibrary.h>
 
-
-
 @interface ALAsset (assetType)
 
 - (BOOL)isPhoto;
 - (BOOL)isVideo;
 - (BOOL)isGIF;
+
+- (NSURL *)url;
 
 @end

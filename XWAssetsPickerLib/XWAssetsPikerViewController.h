@@ -35,6 +35,9 @@ UIKIT_EXTERN NSString *const XWAssetsChangedNotificationKey;
 /// @brief是否显示asset
 - (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldShowAsset:(ALAsset *)asset;
 
+/// @brief是否显示的时候标记选中
+- (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldShowSelectAsset:(ALAsset *)asset;
+
 /// @brief是否将要选择asset
 - (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldSelectAsset:(ALAsset *)asset;
 

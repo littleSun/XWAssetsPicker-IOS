@@ -8,10 +8,13 @@
 
 #import "ViewController.h"
 #import "XWAssetsPikerViewController.h"
+#import "ALAsset+assetType.h"
 
 @interface ViewController ()<XWAssetsPickerControllerDelegate>
 
 @property (nonatomic ,assign) NSInteger max;
+
+@property (nonatomic ,strong) NSMutableArray *records;
 
 @end
 
@@ -21,11 +24,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.title = @"XWAssetsPickerDemo";
+    
+    self.records = [NSMutableArray array];
+    self.max = 10;
 }
 
 - (IBAction)buttonClick:(id)sender
 {
-    self.max = 10;
     
     XWAssetsPikerViewController *piker = [[XWAssetsPikerViewController alloc] init];
     piker.delegate = self;
@@ -35,6 +40,9 @@
 
 - (void)assetsPickerController:(XWAssetsPikerViewController *)picker didFinishPickingAssets:(NSArray *)assets
 {
+    [self.records removeAllObjects];
+    [self.records addObjectsFromArray:picker.selectedAssets];
+    
     NSLog(@"%@ \n",assets.description);
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:assets.description delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
     [alert show];
@@ -61,6 +69,16 @@
 - (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldShowAsset:(ALAsset *)asset
 {
     return YES;
+}
+
+- (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldShowSelectAsset:(ALAsset *)asset
+{
+    for (ALAsset *tmp in self.records) {
+        if ([tmp.url isEqual:asset.url]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldCompressAsset:(ALAsset *)asset
