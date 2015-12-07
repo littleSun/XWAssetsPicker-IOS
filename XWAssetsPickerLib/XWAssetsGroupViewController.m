@@ -12,6 +12,7 @@
 #import "XWAssetsSupplementaryView.h"
 #import "ALAssetsGroup+attribute.h"
 #import "XWAssetsPageViewController.h"
+#import "XWAssetsPikerEditViewController.h"
 
 #define ASSETS_SPACE    4
 
@@ -157,7 +158,7 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, pickerCollectionView.frame.size.width, pickerCollectionView.frame.size.height)];
         
         UIImageView *emptyImageView = [[UIImageView alloc] initWithFrame:CGRectMake(pickerCollectionView.frame.size.width*0.5-50, 200, 100, 100)];
-        emptyImageView.image = [UIImage imageFromBundle:@"empty_asset_image"];
+        emptyImageView.image = [UIImage imageFromAssetBundle:@"empty_asset_image"];
         emptyImageView.contentMode = UIViewContentModeCenter;
         [bgView addSubview:emptyImageView];
         
@@ -240,11 +241,13 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     
     NSLog(@"%@",NSStringFromCGRect(self.view.frame));
     
+    CGFloat bottom_height = self.picker.canEdit?0:44;
+    
     if (([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)) {
-        pickerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44) collectionViewLayout:layout];
+        pickerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-bottom_height) collectionViewLayout:layout];
     }
     else {
-        pickerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44-44) collectionViewLayout:layout];
+        pickerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44-bottom_height) collectionViewLayout:layout];
     }
     pickerCollectionView.backgroundColor = [UIColor whiteColor];
     pickerCollectionView.delegate = self;
@@ -262,18 +265,20 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     [pickerCollectionView registerClass:[XWAssetsSupplementaryView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:XWAssetsSupplementaryViewIdentifier];
     [pickerCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"haha"];
     
-    if (([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)) {
-        _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0,  self.view.frame.size.height-44, self.view.frame.size.width, 44) andPicker:self.picker];
+    if (!self.picker.canEdit) {
+        if (([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)) {
+            _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0,  self.view.frame.size.height-44, self.view.frame.size.width, 44) andPicker:self.picker];
+        }
+        else {
+            _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0,  self.view.frame.size.height-44-44,  self.view.frame.size.width, 44) andPicker:self.picker];
+        }
+        
+        self.assetToolBar.tbdelegate = self;
+        [self.view addSubview:self.assetToolBar];
+        
+        [self.assetToolBar setupToolBar:YES];
     }
-    else {
-        _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0,  self.view.frame.size.height-44-44,  self.view.frame.size.width, 44) andPicker:self.picker];
-    }
-    
-    self.assetToolBar.tbdelegate = self;
-    [self.view addSubview:self.assetToolBar];
-    
-    [self.assetToolBar setupToolBar:YES];
-    
+
     [self trimGroup];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pickerSelectedAssetsChanged:) name:XWAssetsChangedNotificationKey object:nil];
@@ -348,6 +353,8 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     
     ALAsset *asset = assets[indexPath.row];
     
+    cell.canEdit = self.picker.canEdit;
+    
     cell.enabled = YES;
   
     if ([self.picker.selectedAssets containsObject:asset]) {
@@ -380,10 +387,19 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
 
 - (void)xwAssetsViewCellTap:(XWAssetsViewCell *)target
 {
+    if (self.picker.canEdit) {
+        
+        XWAssetsPikerEditViewController *next = [[XWAssetsPikerEditViewController alloc] init];
+        next.wantsFullScreenLayout = YES;
+        next.asset = target.asset;
+        next.indexPath = target.indexPath;
+        next.isPreview = NO;
+        [self.navigationController pushViewController:next animated:YES];
+        return;
+    }
+    
     ALAssetsGroup *group = self.groups[target.indexPath.section];
-    
     NSArray *assets = [self.assets objectForKey:group.url];
-    
     NSArray *assets_ = [NSArray arrayWithArray:assets];
     
     XWAssetsPageViewController *vc = [[XWAssetsPageViewController alloc] initWithAssets:assets_];

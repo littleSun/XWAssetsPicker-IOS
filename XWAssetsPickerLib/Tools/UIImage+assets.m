@@ -159,7 +159,7 @@
     return newimage;
 }
 
-+ (UIImage *)imageFromBundle:(NSString *)name
++ (UIImage *)imageFromAssetBundle:(NSString *)name
 {
     if (name) {
         NSString *file_name = [NSString stringWithFormat:@"%@/%@.png",@"XWAssetsResource.bundle",name];

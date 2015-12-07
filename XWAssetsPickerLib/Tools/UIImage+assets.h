@@ -16,6 +16,6 @@
 
 + (NSData *)animatedDataWithGIF:(UIImage *)image;
 
-+ (UIImage *)imageFromBundle:(NSString *)name;
++ (UIImage *)imageFromAssetBundle:(NSString *)name;
 
 @end

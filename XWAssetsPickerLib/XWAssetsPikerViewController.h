@@ -106,6 +106,12 @@ UIKIT_EXTERN NSString *const XWAssetsChangedNotificationKey;
 @property (nonatomic, assign) BOOL isImageWriteToPath;
 
 /**
+ @brief 是否可以修改
+ @discussion
+ */
+@property (nonatomic, assign) BOOL canEdit;
+
+/**
  @brief 已经选择数组的操作入口
  @discussion
  */
@@ -113,5 +119,7 @@ UIKIT_EXTERN NSString *const XWAssetsChangedNotificationKey;
 - (void)replaceObjectInArrAtIndex:(NSInteger)index withObject:(NSObject *)object;
 - (void)removeObjectFromArrAtIndex:(NSInteger)index;
 - (void)removeObjectFromArr:(NSObject *)object;
+
++ (BOOL)checkStatusOk;
 
 @end

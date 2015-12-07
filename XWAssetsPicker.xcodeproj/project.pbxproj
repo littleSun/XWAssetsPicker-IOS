@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DD53E9FA1BD8BF6400E18503 /* CompressHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = DD53E9F91BD8BF6400E18503 /* CompressHelp.m */; settings = {ASSET_TAGS = (); }; };
+		DD53E9FA1BD8BF6400E18503 /* CompressHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = DD53E9F91BD8BF6400E18503 /* CompressHelp.m */; };
 		DD6B4D841B8572D800CB8776 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6B4D831B8572D800CB8776 /* main.m */; };
 		DD6B4D871B8572D800CB8776 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6B4D861B8572D800CB8776 /* AppDelegate.m */; };
 		DD6B4D8A1B8572D800CB8776 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6B4D891B8572D800CB8776 /* ViewController.m */; };
@@ -15,21 +15,22 @@
 		DD6B4D8F1B8572D800CB8776 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD6B4D8E1B8572D800CB8776 /* Images.xcassets */; };
 		DD6B4D921B8572D800CB8776 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD6B4D901B8572D800CB8776 /* LaunchScreen.xib */; };
 		DD6B4D9E1B8572D900CB8776 /* XWAssetsPickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6B4D9D1B8572D900CB8776 /* XWAssetsPickerTests.m */; };
-		DD8663601BE0715D0017DB82 /* XWAssetsResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DD86635F1BE0715D0017DB82 /* XWAssetsResource.bundle */; settings = {ASSET_TAGS = (); }; };
-		DDB1EEC31BD61ADF001E1F03 /* XWAssetsViewControllerTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEA81BD61ADF001E1F03 /* XWAssetsViewControllerTransition.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EEC41BD61ADF001E1F03 /* ALAsset+accessibilityLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEAB1BD61ADF001E1F03 /* ALAsset+accessibilityLabel.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EEC51BD61ADF001E1F03 /* ALAsset+assetType.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEAD1BD61ADF001E1F03 /* ALAsset+assetType.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EEC61BD61ADF001E1F03 /* ALAssetsGroup+attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEAF1BD61ADF001E1F03 /* ALAssetsGroup+attribute.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EEC71BD61ADF001E1F03 /* UIImage+assets.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEB11BD61ADF001E1F03 /* UIImage+assets.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EEC81BD61ADF001E1F03 /* XWAssetScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEB41BD61ADF001E1F03 /* XWAssetScrollView.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EEC91BD61ADF001E1F03 /* XWAssetsSupplementaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEB61BD61ADF001E1F03 /* XWAssetsSupplementaryView.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EECA1BD61ADF001E1F03 /* XWAssetsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEB81BD61ADF001E1F03 /* XWAssetsViewCell.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EECB1BD61ADF001E1F03 /* XWToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEBA1BD61ADF001E1F03 /* XWToolBar.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EECC1BD61ADF001E1F03 /* XWAssetItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEBC1BD61ADF001E1F03 /* XWAssetItemViewController.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EECD1BD61ADF001E1F03 /* XWAssetsGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEBE1BD61ADF001E1F03 /* XWAssetsGroupViewController.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EECE1BD61ADF001E1F03 /* XWAssetsPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEC01BD61ADF001E1F03 /* XWAssetsPageViewController.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EECF1BD61ADF001E1F03 /* XWAssetsPikerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEC21BD61ADF001E1F03 /* XWAssetsPikerViewController.m */; settings = {ASSET_TAGS = (); }; };
-		DDB1EED21BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EED11BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m */; settings = {ASSET_TAGS = (); }; };
+		DD8663601BE0715D0017DB82 /* XWAssetsResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DD86635F1BE0715D0017DB82 /* XWAssetsResource.bundle */; };
+		DDB1EEC31BD61ADF001E1F03 /* XWAssetsViewControllerTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEA81BD61ADF001E1F03 /* XWAssetsViewControllerTransition.m */; };
+		DDB1EEC41BD61ADF001E1F03 /* ALAsset+accessibilityLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEAB1BD61ADF001E1F03 /* ALAsset+accessibilityLabel.m */; };
+		DDB1EEC51BD61ADF001E1F03 /* ALAsset+assetType.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEAD1BD61ADF001E1F03 /* ALAsset+assetType.m */; };
+		DDB1EEC61BD61ADF001E1F03 /* ALAssetsGroup+attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEAF1BD61ADF001E1F03 /* ALAssetsGroup+attribute.m */; };
+		DDB1EEC71BD61ADF001E1F03 /* UIImage+assets.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEB11BD61ADF001E1F03 /* UIImage+assets.m */; };
+		DDB1EEC81BD61ADF001E1F03 /* XWAssetScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEB41BD61ADF001E1F03 /* XWAssetScrollView.m */; };
+		DDB1EEC91BD61ADF001E1F03 /* XWAssetsSupplementaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEB61BD61ADF001E1F03 /* XWAssetsSupplementaryView.m */; };
+		DDB1EECA1BD61ADF001E1F03 /* XWAssetsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEB81BD61ADF001E1F03 /* XWAssetsViewCell.m */; };
+		DDB1EECB1BD61ADF001E1F03 /* XWToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEBA1BD61ADF001E1F03 /* XWToolBar.m */; };
+		DDB1EECC1BD61ADF001E1F03 /* XWAssetItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEBC1BD61ADF001E1F03 /* XWAssetItemViewController.m */; };
+		DDB1EECD1BD61ADF001E1F03 /* XWAssetsGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEBE1BD61ADF001E1F03 /* XWAssetsGroupViewController.m */; };
+		DDB1EECE1BD61ADF001E1F03 /* XWAssetsPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEC01BD61ADF001E1F03 /* XWAssetsPageViewController.m */; };
+		DDB1EECF1BD61ADF001E1F03 /* XWAssetsPikerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEC21BD61ADF001E1F03 /* XWAssetsPikerViewController.m */; };
+		DDB1EED21BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EED11BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m */; };
+		F0DCAEFB1C118E1600B6B46B /* XWAssetsPikerEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DCAEFA1C118E1600B6B46B /* XWAssetsPikerEditViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,8 @@
 		DDB1EEC21BD61ADF001E1F03 /* XWAssetsPikerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWAssetsPikerViewController.m; sourceTree = "<group>"; };
 		DDB1EED01BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+timeIntervalFormatter.h"; sourceTree = "<group>"; };
 		DDB1EED11BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+timeIntervalFormatter.m"; sourceTree = "<group>"; };
+		F0DCAEF91C118E1600B6B46B /* XWAssetsPikerEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XWAssetsPikerEditViewController.h; sourceTree = "<group>"; };
+		F0DCAEFA1C118E1600B6B46B /* XWAssetsPikerEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWAssetsPikerEditViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +186,8 @@
 				DDB1EEC21BD61ADF001E1F03 /* XWAssetsPikerViewController.m */,
 				DDB1EEA71BD61ADF001E1F03 /* XWAssetsViewControllerTransition.h */,
 				DDB1EEA81BD61ADF001E1F03 /* XWAssetsViewControllerTransition.m */,
+				F0DCAEF91C118E1600B6B46B /* XWAssetsPikerEditViewController.h */,
+				F0DCAEFA1C118E1600B6B46B /* XWAssetsPikerEditViewController.m */,
 			);
 			path = XWAssetsPickerLib;
 			sourceTree = "<group>";
@@ -278,7 +283,7 @@
 				TargetAttributes = {
 					DD6B4D7D1B8572D800CB8776 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 74PY265G42;
+						DevelopmentTeam = KMJGFR36S2;
 					};
 					DD6B4D961B8572D900CB8776 = {
 						CreatedOnToolsVersion = 6.4;
@@ -343,6 +348,7 @@
 				DDB1EECC1BD61ADF001E1F03 /* XWAssetItemViewController.m in Sources */,
 				DDB1EECA1BD61ADF001E1F03 /* XWAssetsViewCell.m in Sources */,
 				DDB1EECB1BD61ADF001E1F03 /* XWToolBar.m in Sources */,
+				F0DCAEFB1C118E1600B6B46B /* XWAssetsPikerEditViewController.m in Sources */,
 				DDB1EEC31BD61ADF001E1F03 /* XWAssetsViewControllerTransition.m in Sources */,
 				DDB1EEC41BD61ADF001E1F03 /* ALAsset+accessibilityLabel.m in Sources */,
 				DD53E9FA1BD8BF6400E18503 /* CompressHelp.m in Sources */,
@@ -407,8 +413,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: QiYong Wu (67C9Q6YER7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: QiYong Wu (67C9Q6YER7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: chao zeng (D53B229474)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: chao zeng (D53B229474)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -431,7 +437,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "f2f4382f-e575-4cbd-8b8b-d6a14cf0de2a";
+				PROVISIONING_PROFILE = "9e91cca0-5324-4b58-883a-90f7d14174d2";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -453,8 +459,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: QiYong Wu (67C9Q6YER7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: QiYong Wu (67C9Q6YER7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: chao zeng (D53B229474)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: chao zeng (D53B229474)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -469,7 +475,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "f2f4382f-e575-4cbd-8b8b-d6a14cf0de2a";
+				PROVISIONING_PROFILE = "9e91cca0-5324-4b58-883a-90f7d14174d2";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -479,14 +485,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: QiYong Wu (67C9Q6YER7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: QiYong Wu (67C9Q6YER7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: chao zeng (D53B229474)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: chao zeng (D53B229474)";
 				INFOPLIST_FILE = XWAssetsPicker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xweisoft.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f2f4382f-e575-4cbd-8b8b-d6a14cf0de2a";
+				PROVISIONING_PROFILE = "9e91cca0-5324-4b58-883a-90f7d14174d2";
 			};
 			name = Debug;
 		};
@@ -494,14 +500,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: QiYong Wu (67C9Q6YER7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: QiYong Wu (67C9Q6YER7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: chao zeng (D53B229474)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: chao zeng (D53B229474)";
 				INFOPLIST_FILE = XWAssetsPicker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xweisoft.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f2f4382f-e575-4cbd-8b8b-d6a14cf0de2a";
+				PROVISIONING_PROFILE = "9e91cca0-5324-4b58-883a-90f7d14174d2";
 			};
 			name = Release;
 		};

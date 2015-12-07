@@ -24,3 +24,9 @@
 @property (nonatomic) NSUInteger index;
 
 @end
+
+@interface XWAssetEditScrollView : UIScrollView
+
+@property (nonatomic ,strong) ALAsset *editAsset;
+
+@end

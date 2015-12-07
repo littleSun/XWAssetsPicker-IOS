@@ -9,7 +9,7 @@
 #import "XWAssetsGroupViewController.h"
 #import "XWAssetsPageViewController.h"
 #import "XWAssetsViewControllerTransition.h"
-
+#import "XWAssetsPikerEditViewController.h"
 #import "CompressHelp.h"
 
 NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKey";
@@ -44,7 +44,7 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
  @brief 初始化缺省数据
  @discussion
  @param
- @result 
+ @result
  */
 - (void)setup
 {
@@ -66,9 +66,14 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
 
 - (void)setupNavigationController
 {
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    }
+    
     XWAssetsGroupViewController *vc = [[XWAssetsGroupViewController alloc] init];
-
+    
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [nav.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     
     // Enable iOS 7 back gesture
     if ([nav respondsToSelector:@selector(interactivePopGestureRecognizer)])
@@ -78,7 +83,7 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
         nav.delegate = self;
     }
     
-//    nav.delegate = self;
+    //    nav.delegate = self;
     [nav willMoveToParentViewController:self];
     
     // Set frame origin to zero so that the view will be positioned correctly while in-call status bar is shown
@@ -131,6 +136,10 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
     if (_delegate && [self.delegate respondsToSelector:@selector(assetsPickerControllerDidCancel:)])
         [self.delegate assetsPickerControllerDidCancel:self];
     
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    }
+    
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -172,6 +181,10 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(assetsPickerController:didFinishPickingAssets:)])
         [self.delegate assetsPickerController:self didFinishPickingAssets:infos];
+    
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    }
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -247,12 +260,36 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
         
         return transition;
     }
+    else if ((operation == UINavigationControllerOperationPush && [toVC isKindOfClass:[XWAssetsPikerEditViewController class]]) ||
+                 (operation == UINavigationControllerOperationPop && [fromVC isKindOfClass:[XWAssetsPikerEditViewController class]]))
+    {
+        
+//        return nil;
+        
+        XWAssetsViewControllerTransition *transition = [[XWAssetsViewControllerTransition alloc] init];
+        transition.operation = operation;
+        
+        return transition;
+    }
     else
     {
         return nil;
     }
 }
 
++ (BOOL)checkStatusOk
+{
+    ALAuthorizationStatus author = [ALAssetsLibrary authorizationStatus];
+    if (author == ALAuthorizationStatusRestricted || author ==ALAuthorizationStatusDenied){
+        //无权限
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无法使用相册" message:@"请在iPhone的\"设置-隐私-相机\"中允许访问相册" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+        return NO;
+    }
+    
+    return YES;
+}
 
 
 @end

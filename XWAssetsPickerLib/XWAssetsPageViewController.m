@@ -123,14 +123,14 @@
 {
     if ([self.picker.selectedAssets containsObject:[self assetAtIndex:index]]) {
 
-        UIImage *image = [UIImage imageFromBundle:@"asset_select_icon"];
+        UIImage *image = [UIImage imageFromAssetBundle:@"asset_select_icon"];
         if (image) {
             [barButton setImage:image forState:UIControlStateNormal];
         }
     }
     else {
         
-        UIImage *image = [UIImage imageFromBundle:@"asset_unselect_icon"];
+        UIImage *image = [UIImage imageFromAssetBundle:@"asset_unselect_icon"];
         if (image) {
             [barButton setImage:image forState:UIControlStateNormal];
         }

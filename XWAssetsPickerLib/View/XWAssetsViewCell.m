@@ -99,6 +99,15 @@
 
 - (void)tap:(UITapGestureRecognizer *)sender
 {
+    if (self.isCanEdit) {
+        
+        if (self.delegate && [_delegate respondsToSelector:@selector(xwAssetsViewCellTap:)]) {
+            [self.delegate xwAssetsViewCellTap:self];
+        }
+        
+        return;
+    }
+    
     CGPoint point = [sender locationInView:sender.view];
 
     CGRect rect = CGRectMake(self.frame.size.width-35, 0, 35, 35);
@@ -125,7 +134,7 @@
     
     if ([self.asset isVideo]) {
         durationLb.hidden   = NO;
-        tagIcon.image = [UIImage imageFromBundle:@"asset_video_icon"];
+        tagIcon.image = [UIImage imageFromAssetBundle:@"asset_video_icon"];
         
         static NSDateFormatter *df = nil;
         if (!df) {
@@ -133,23 +142,32 @@
         }
         
         durationLb.text = [df stringFromTimeInterval:[[asset valueForProperty:ALAssetPropertyDuration] doubleValue]];
-        tagIcon.image       = [UIImage imageFromBundle:@"asset_video_icon"];
+        tagIcon.image       = [UIImage imageFromAssetBundle:@"asset_video_icon"];
     }
     else if ([self.asset isGIF]) {
         durationLb.hidden   = YES;
-        tagIcon.image       = [UIImage imageFromBundle:@"asset_gif_icon"];
+        tagIcon.image       = [UIImage imageFromAssetBundle:@"asset_gif_icon"];
     }
     else {
         durationLb.hidden = YES;
         tagIcon.image = nil;
     }
     
-    if (self.isAssetSelected) {
-        checkedImageView.image = [UIImage imageFromBundle:@"asset_select_icon"];
+    if (!self.isCanEdit) {
+        
+        checkedImageView.hidden = NO;
+        
+        if (self.isAssetSelected) {
+            checkedImageView.image = [UIImage imageFromAssetBundle:@"asset_select_icon"];
+        }
+        else {
+            checkedImageView.image = [UIImage imageFromAssetBundle:@"asset_unselect_icon"];
+        }
     }
     else {
-        checkedImageView.image = [UIImage imageFromBundle:@"asset_unselect_icon"];
+        checkedImageView.hidden = YES;
     }
+
 }
 
 #pragma mark - Accessibility Label

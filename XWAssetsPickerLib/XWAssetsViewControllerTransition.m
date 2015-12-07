@@ -8,14 +8,13 @@
 #import "XWAssetsViewControllerTransition.h"
 #import "XWAssetsGroupViewController.h"
 #import "XWAssetsPageViewController.h"
+//#import "UIImage+assets.h"
 
 @interface XWAssetsViewControllerTransition ()
 
 @end
 
-
 @implementation XWAssetsViewControllerTransition
-
 
 #pragma mark - UIViewControllerAnimatedTransitioning
 
@@ -45,10 +44,18 @@
             cellView        = fromVC.assetToolBar.previewBtn;
         }
         
-        UIImageView *imageView  = (UIImageView *)[((UIViewController *)toVC.viewControllers[0]).view viewWithTag:1];
+        UIImageView *imageView  = nil;
+        if ([toVC respondsToSelector:@selector(viewControllers)]) {
+            imageView  = (UIImageView *)[((UIViewController *)toVC.viewControllers[0]).view viewWithTag:1];
+        }
+        else {
+            imageView  = (UIImageView *)[toVC.view viewWithTag:1];
+        }
+        
         UIView *snapshot        = [self resizedSnapshot:imageView];
         
         CGPoint cellCenter  = [fromVC.view convertPoint:cellView.center fromView:cellView.superview];
+//        cellCenter = cellView.center;
         CGPoint snapCenter  = toVC.view.center;
         
         // Find the scales of snapshot
@@ -67,7 +74,7 @@
         
         // Create the mask
         UIView *mask            = [[UIView alloc] initWithFrame:startBounds];
-        mask.backgroundColor    = [UIColor whiteColor];
+        mask.backgroundColor    = [UIColor blackColor];
         
         // Prepare transition
         snapshot.transform  = CGAffineTransformMakeScale(startScale, startScale);;
@@ -121,8 +128,14 @@
         }
 
         
-
-        UIImageView *imageView  = (UIImageView *)[((UIViewController *)fromVC.viewControllers[0]).view viewWithTag:1];
+        UIImageView *imageView  = nil;
+        if ([fromVC respondsToSelector:@selector(viewControllers)]) {
+            imageView  = (UIImageView *)[((UIViewController *)fromVC.viewControllers[0]).view viewWithTag:1];
+        }
+        else {
+            imageView  = (UIImageView *)[fromVC.view viewWithTag:1];
+        }
+        
         UIView *snapshot        = [self resizedSnapshot:imageView];
         
         CGPoint cellCenter  = [toVC.view convertPoint:cellView.center fromView:cellView.superview];

@@ -33,8 +33,9 @@
 {
     
     XWAssetsPikerViewController *piker = [[XWAssetsPikerViewController alloc] init];
+    piker.canEdit = YES;
     piker.delegate = self;
-    piker.assetsFilter = [ALAssetsFilter allAssets];
+    piker.assetsFilter = [ALAssetsFilter allPhotos];
     [self presentViewController:piker animated:YES completion:NULL];
 }
 

@@ -30,6 +30,8 @@
 
 @property (nonatomic, assign, getter = isAssetSelected) BOOL assetSelected;
 
+@property (nonatomic, assign, getter = isCanEdit) BOOL canEdit;
+
 @property (nonatomic, strong) ALAsset *asset;
 
 - (void)bind:(ALAsset *)asset;
