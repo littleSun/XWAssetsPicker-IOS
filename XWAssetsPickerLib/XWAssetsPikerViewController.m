@@ -11,10 +11,11 @@
 #import "XWAssetsViewControllerTransition.h"
 #import "XWAssetsPikerEditViewController.h"
 #import "CompressHelp.h"
+#import <MobileCoreServices/MobileCoreServices.h>
 
 NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKey";
 
-@interface XWAssetsPikerViewController ()<UIGestureRecognizerDelegate,UINavigationControllerDelegate>
+@interface XWAssetsPikerViewController ()<UIGestureRecognizerDelegate,UINavigationControllerDelegate,XWAssetsGroupVCDelegate>
 {
     CompressHelp *compressHelp;
     
@@ -71,9 +72,14 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
     }
     
     XWAssetsGroupViewController *vc = [[XWAssetsGroupViewController alloc] init];
+    vc.delegate = self;
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-    [nav.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+
+    
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
+        [nav.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    }
     
     // Enable iOS 7 back gesture
     if ([nav respondsToSelector:@selector(interactivePopGestureRecognizer)])
@@ -189,6 +195,31 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)assetsGroupViewControllerEditOutput:(UIImage *)image
+{
+    NSString *imagePath = self.cachePath;
+    
+    if (image.images.count > 1) {
+        imagePath = [imagePath stringByAppendingFormat:@"/%@-image.gif", [[NSUUID UUID] UUIDString]];
+    }
+    else {
+        imagePath = [imagePath stringByAppendingFormat:@"/%@-image.jpg", [[NSUUID UUID] UUIDString]];
+    }
+
+    NSMutableDictionary *info = [NSMutableDictionary dictionary];
+    [info setObject:(NSString *)kUTTypeImage forKey:UIImagePickerControllerMediaType];
+    [info setObject:image forKey:UIImagePickerControllerOriginalImage];
+    
+    if (self.isImageWriteToPath) {
+        [info setObject:[NSURL fileURLWithPath:imagePath] forKey:UIImagePickerControllerMediaURL];
+        NSData *data = [UIImage animatedDataWithGIF:image];
+        [data writeToFile:imagePath atomically:YES];
+    }
+    
+    UIImageWriteToSavedPhotosAlbum(image, nil, NULL, NULL);
+    
+    [self finishToSend:@[info]];
+}
 
 #pragma mark -- ArrayUtil
 - (void)insertObject:(NSObject *)object

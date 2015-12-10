@@ -18,4 +18,6 @@
 
 + (UIImage *)imageFromAssetBundle:(NSString *)name;
 
+//+ (UIImage *)assetImageFromColor:(UIColor *)color;
+
 @end

@@ -9,14 +9,24 @@
 #import <UIKit/UIKit.h>
 #import "XWAssetScrollView.h"
 
-@interface XWAssetsPikerEditViewController : UIViewController
+@class XWAssetsPikerEditViewController;
+@protocol XWAssetsPikerEditVCDelegate <NSObject>
 
-@property (nonatomic, weak) id<XWAssetScrollViewDelegate> delegate;
+- (void)assetsPikerEditViewController:(XWAssetsPikerEditViewController *)target output:(UIImage *)image;
+
+@end
+
+
+@interface XWAssetsPikerEditViewController : UIViewController
 
 @property (nonatomic, strong) ALAsset *asset;
 
 @property (nonatomic, strong) NSIndexPath *indexPath;
 
 @property (nonatomic, assign) BOOL isPreview;
+
+@property (nonatomic, assign) NSInteger tag;
+
+@property (nonatomic, assign) id <XWAssetsPikerEditVCDelegate> delegate;
 
 @end

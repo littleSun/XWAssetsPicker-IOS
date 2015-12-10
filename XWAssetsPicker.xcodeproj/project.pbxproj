@@ -31,6 +31,7 @@
 		DDB1EECF1BD61ADF001E1F03 /* XWAssetsPikerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EEC21BD61ADF001E1F03 /* XWAssetsPikerViewController.m */; };
 		DDB1EED21BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB1EED11BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m */; };
 		F0DCAEFB1C118E1600B6B46B /* XWAssetsPikerEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DCAEFA1C118E1600B6B46B /* XWAssetsPikerEditViewController.m */; };
+		F0DCAF001C170A2700B6B46B /* XWPhotoEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DCAEFF1C170A2700B6B46B /* XWPhotoEditView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,8 @@
 		DDB1EED11BD61B0A001E1F03 /* NSDateFormatter+timeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+timeIntervalFormatter.m"; sourceTree = "<group>"; };
 		F0DCAEF91C118E1600B6B46B /* XWAssetsPikerEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XWAssetsPikerEditViewController.h; sourceTree = "<group>"; };
 		F0DCAEFA1C118E1600B6B46B /* XWAssetsPikerEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWAssetsPikerEditViewController.m; sourceTree = "<group>"; };
+		F0DCAEFE1C170A2700B6B46B /* XWPhotoEditView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XWPhotoEditView.h; sourceTree = "<group>"; };
+		F0DCAEFF1C170A2700B6B46B /* XWPhotoEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWPhotoEditView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +219,8 @@
 			children = (
 				DDB1EEB31BD61ADF001E1F03 /* XWAssetScrollView.h */,
 				DDB1EEB41BD61ADF001E1F03 /* XWAssetScrollView.m */,
+				F0DCAEFE1C170A2700B6B46B /* XWPhotoEditView.h */,
+				F0DCAEFF1C170A2700B6B46B /* XWPhotoEditView.m */,
 				DDB1EEB51BD61ADF001E1F03 /* XWAssetsSupplementaryView.h */,
 				DDB1EEB61BD61ADF001E1F03 /* XWAssetsSupplementaryView.m */,
 				DDB1EEB71BD61ADF001E1F03 /* XWAssetsViewCell.h */,
@@ -350,6 +355,7 @@
 				DDB1EECB1BD61ADF001E1F03 /* XWToolBar.m in Sources */,
 				F0DCAEFB1C118E1600B6B46B /* XWAssetsPikerEditViewController.m in Sources */,
 				DDB1EEC31BD61ADF001E1F03 /* XWAssetsViewControllerTransition.m in Sources */,
+				F0DCAF001C170A2700B6B46B /* XWPhotoEditView.m in Sources */,
 				DDB1EEC41BD61ADF001E1F03 /* ALAsset+accessibilityLabel.m in Sources */,
 				DD53E9FA1BD8BF6400E18503 /* CompressHelp.m in Sources */,
 				DDB1EEC71BD61ADF001E1F03 /* UIImage+assets.m in Sources */,

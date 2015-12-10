@@ -10,10 +10,19 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "XWToolBar.h"
 
+@class XWAssetsGroupViewController;
+@protocol XWAssetsGroupVCDelegate <NSObject>
+
+- (void)assetsGroupViewControllerEditOutput:(UIImage *)image;
+
+@end
+
 @interface XWAssetsGroupViewController : UIViewController
 
 @property (nonatomic ,strong) UICollectionView *pickerCollectionView;
 
 @property (nonatomic ,strong) XWToolBar *assetToolBar;
+
+@property (nonatomic ,assign) id <XWAssetsGroupVCDelegate> delegate;
 
 @end

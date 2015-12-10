@@ -26,7 +26,7 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
 
 @end
 
-@interface XWAssetsGroupViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,XWAssetsViewCellDelegate,XWToolBarDelegate,UIGestureRecognizerDelegate>
+@interface XWAssetsGroupViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,XWAssetsViewCellDelegate,XWToolBarDelegate,UIGestureRecognizerDelegate,XWAssetsPikerEditVCDelegate>
 {
     NSIndexPath *slideAtIndexPath;
     CGPoint slideAtPoint;
@@ -390,7 +390,7 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     if (self.picker.canEdit) {
         
         XWAssetsPikerEditViewController *next = [[XWAssetsPikerEditViewController alloc] init];
-        next.wantsFullScreenLayout = YES;
+        next.delegate = self;
         next.asset = target.asset;
         next.indexPath = target.indexPath;
         next.isPreview = NO;
@@ -469,6 +469,13 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
 - (void)toolbarSend:(XWToolBar *)target
 {
     [self.picker finishPickingAssets:NULL];
+}
+
+- (void)assetsPikerEditViewController:(XWAssetsPikerEditViewController *)target output:(UIImage *)image
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(assetsGroupViewControllerEditOutput:)]) {
+        [self.delegate assetsGroupViewControllerEditOutput:image];
+    }
 }
 
 #pragma mark -- PanGestureDelegate
