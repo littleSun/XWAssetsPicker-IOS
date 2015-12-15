@@ -8,11 +8,7 @@
 #import "XWAssetsViewControllerTransition.h"
 #import "XWAssetsGroupViewController.h"
 #import "XWAssetsPageViewController.h"
-//#import "UIImage+assets.h"
-
-@interface XWAssetsViewControllerTransition ()
-
-@end
+#import "XWAssetsPikerEditViewController.h"
 
 @implementation XWAssetsViewControllerTransition
 
@@ -25,6 +21,7 @@
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
+    
     UIView *containerView           = [transitionContext containerView];
     containerView.backgroundColor   = [UIColor whiteColor];
     
@@ -44,15 +41,10 @@
             cellView        = fromVC.assetToolBar.previewBtn;
         }
         
-        UIImageView *imageView  = nil;
-        if ([toVC respondsToSelector:@selector(viewControllers)]) {
-            imageView  = (UIImageView *)[((UIViewController *)toVC.viewControllers[0]).view viewWithTag:1];
-        }
-        else {
-            imageView  = (UIImageView *)[toVC.view viewWithTag:1];
-        }
+        UIImageView *imageView  = (UIImageView *)[((UIViewController *)toVC.viewControllers[0]).view viewWithTag:1];;
+        CGSize size = imageView.frame.size;
         
-        UIView *snapshot        = [self resizedSnapshot:imageView];
+        UIView *snapshot        = [self resizedSnapshot:imageView size:size];
         
         CGPoint cellCenter  = [fromVC.view convertPoint:cellView.center fromView:cellView.superview];
 //        cellCenter = cellView.center;
@@ -126,17 +118,12 @@
         else {
             cellView       =   toVC.assetToolBar.previewBtn;
         }
+        
+        UIImageView *imageView  = (UIImageView *)[((UIViewController *)fromVC.viewControllers[0]).view viewWithTag:1];
+         CGSize size = imageView.frame.size;
 
         
-        UIImageView *imageView  = nil;
-        if ([fromVC respondsToSelector:@selector(viewControllers)]) {
-            imageView  = (UIImageView *)[((UIViewController *)fromVC.viewControllers[0]).view viewWithTag:1];
-        }
-        else {
-            imageView  = (UIImageView *)[fromVC.view viewWithTag:1];
-        }
-        
-        UIView *snapshot        = [self resizedSnapshot:imageView];
+        UIView *snapshot        = [self resizedSnapshot:imageView size:size];
         
         CGPoint cellCenter  = [toVC.view convertPoint:cellView.center fromView:cellView.superview];
         CGPoint snapCenter  = fromVC.view.center;
@@ -194,13 +181,177 @@
 
 #pragma mark - Snapshot
 
-- (UIView *)resizedSnapshot:(UIImageView *)imageView
+- (UIView *)resizedSnapshot:(UIImageView *)imageView size:(CGSize)size
 {
-    CGSize size = imageView.frame.size;
+//    CGSize size = imageView.frame.size;
     
     UIGraphicsBeginImageContextWithOptions(size, YES, 0);
     
     [[UIColor whiteColor] set];
+    UIRectFill(CGRectMake(0, 0, size.width, size.height));
+    
+    [imageView.image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *resized = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return (UIView *)[[UIImageView alloc] initWithImage:resized];
+}
+
+@end
+
+@implementation XWAssetsViewControllerTransition2
+
+#pragma mark - UIViewControllerAnimatedTransitioning
+
+- (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    return 0.35f;
+}
+
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    
+    UIView *containerView           = [transitionContext containerView];
+    containerView.backgroundColor   = [UIColor whiteColor];
+    
+    if (self.operation == UINavigationControllerOperationPush)
+    {
+        XWAssetsGroupViewController *fromVC      = (XWAssetsGroupViewController *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+        XWAssetsPikerEditViewController *toVC    = (XWAssetsPikerEditViewController *)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+        
+        NSIndexPath *indexPath              = toVC.indexPath;
+        UIView *cellView        = [fromVC.pickerCollectionView cellForItemAtIndexPath:indexPath];
+        
+        UIImageView *imageView  = [[toVC.view viewWithTag:100] viewWithTag:100];
+        CGSize size = toVC.photoView.originalSize;
+        
+        UIView *snapshot        = [self resizedSnapshot:imageView size:size];
+      
+        CGPoint cellCenter  = [fromVC.view convertPoint:cellView.center fromView:cellView.superview];
+        //        cellCenter = cellView.center;
+        CGPoint snapCenter  = toVC.photoView.originalPoint;
+        
+
+        // Find the bounds of the snapshot mask
+        float width         = snapshot.bounds.size.width;
+        float height        = snapshot.bounds.size.height;
+//        float length        = MIN(width, height);
+        
+        float scale_x       = width/cellView.frame.size.width;
+        float scale_y       = height/cellView.frame.size.height;
+        // Find the scales of snapshot
+        CGRect startBounds  = [fromVC.view convertRect:cellView.frame fromView:fromVC.pickerCollectionView];
+//        CGRect endBounds  = snapshot.frame;
+
+        snapshot.center     = cellCenter;
+        snapshot.frame = startBounds;
+        
+        toVC.view.frame     = [transitionContext finalFrameForViewController:toVC];
+        toVC.view.alpha     = 0;
+        
+        // Add to container view
+        [containerView addSubview:toVC.view];
+        [containerView addSubview:snapshot];
+        
+        
+        containerView.backgroundColor = [UIColor blackColor];
+        
+        // Animate
+        [UIView animateWithDuration:[self transitionDuration:transitionContext]
+                              delay:0
+             usingSpringWithDamping:0.75
+              initialSpringVelocity:0
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{
+                             fromVC.view.alpha          = 0;
+                             snapshot.transform         = CGAffineTransformMakeScale(scale_x, scale_y);
+//                             snapshot.layer.mask.bounds = endBounds;
+                             snapshot.center            = snapCenter;
+                         }
+                         completion:^(BOOL finished){
+                             toVC.view.alpha   = 1;
+                             [snapshot removeFromSuperview];
+                             [transitionContext completeTransition:YES];
+                         }];
+    }
+    
+    else
+    {
+        XWAssetsPikerEditViewController *fromVC  = (XWAssetsPikerEditViewController *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+        XWAssetsGroupViewController *toVC        = (XWAssetsGroupViewController *)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+        
+ 
+        NSIndexPath *indexPath              = fromVC.indexPath;
+        
+        // Scroll to index path
+        [toVC.pickerCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+        [toVC.pickerCollectionView layoutIfNeeded];
+        
+        UIView *cellView        = [toVC.pickerCollectionView cellForItemAtIndexPath:indexPath];
+        cellView.backgroundColor = [UIColor blackColor];
+        
+        UIImageView *imageView  = [[fromVC.view viewWithTag:100] viewWithTag:100];
+        CGSize size = fromVC.photoView.originalSize;
+        
+        UIView *snapshot        = [self resizedSnapshot:imageView size:size];
+        
+        CGPoint cellCenter  = [toVC.view convertPoint:cellView.center fromView:cellView.superview];
+//        CGPoint snapCenter  = fromVC.view.center;
+        
+        // Find the bounds of the snapshot mask
+        float width         = snapshot.bounds.size.width;
+        float height        = snapshot.bounds.size.height;
+        //        float length        = MIN(width, height);
+        
+        float scale_x       = cellView.frame.size.width*1.0/width;
+        float scale_y       = cellView.frame.size.height*1.0/height;
+        // Find the scales of snapshot
+        CGRect startBounds  = snapshot.frame;
+//        CGRect endBounds  = [toVC.view convertRect:cellView.frame fromView:toVC.pickerCollectionView];
+        
+        snapshot.center     = cellCenter;
+        snapshot.frame = startBounds;
+        
+        toVC.view.frame     = [transitionContext finalFrameForViewController:toVC];
+        toVC.view.alpha     = 0;
+        
+        // Add to container view
+        [containerView addSubview:toVC.view];
+        [containerView addSubview:snapshot];
+        
+        
+        // Animate
+        [UIView animateWithDuration:[self transitionDuration:transitionContext]
+                              delay:0
+             usingSpringWithDamping:1
+              initialSpringVelocity:0
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{
+                             toVC.view.alpha            = 1;
+                             snapshot.transform         = CGAffineTransformMakeScale(scale_x, scale_y);
+//                             snapshot.layer.mask.bounds = endBounds;
+                             snapshot.center            = cellCenter;
+                         }
+                         completion:^(BOOL finished){
+                             fromVC.view.alpha = 0;
+                             [snapshot removeFromSuperview];
+                             [transitionContext completeTransition:YES];
+                         }];
+    }
+}
+
+
+
+#pragma mark - Snapshot
+
+- (UIView *)resizedSnapshot:(UIImageView *)imageView size:(CGSize)size
+{
+    //    CGSize size = imageView.frame.size;
+    
+    UIGraphicsBeginImageContextWithOptions(size, YES, 0);
+    
+    [[UIColor blackColor] set];
     UIRectFill(CGRectMake(0, 0, size.width, size.height));
     
     [imageView.image drawInRect:CGRectMake(0, 0, size.width, size.height)];

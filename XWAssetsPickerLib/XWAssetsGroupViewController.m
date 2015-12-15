@@ -61,6 +61,9 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
  */
 - (void)setup
 {
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.backBarButtonItem = nil;
+    
     self.title = XWASSET_TITLE;
     
     self.assets = [NSMutableDictionary dictionary];
@@ -536,6 +539,10 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     
     if (!self.picker.openSlideSelectGesture) {
+        return NO;
+    }
+    
+    if (!self.picker.canEdit) {
         return NO;
     }
     

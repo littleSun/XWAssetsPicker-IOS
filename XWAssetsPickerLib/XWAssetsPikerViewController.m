@@ -297,7 +297,7 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
         
 //        return nil;
         
-        XWAssetsViewControllerTransition *transition = [[XWAssetsViewControllerTransition alloc] init];
+        XWAssetsViewControllerTransition2 *transition = [[XWAssetsViewControllerTransition2 alloc] init];
         transition.operation = operation;
         
         return transition;

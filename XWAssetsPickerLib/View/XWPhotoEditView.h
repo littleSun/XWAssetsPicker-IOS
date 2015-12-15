@@ -31,10 +31,11 @@
 
 @property (assign, nonatomic) CGFloat angle;
 @property (strong, nonatomic) PhotoContentView *photoContentView;
-@property (assign, nonatomic) CGPoint photoContentOffset;
+//@property (assign, nonatomic) CGPoint photoContentOffset;
 @property (strong, nonatomic) CropView *cropView;
 @property (strong, nonatomic) UIColor *themeColor;
-
+@property (nonatomic, assign) CGSize originalSize;
+@property (nonatomic, assign) CGPoint originalPoint;
 //@property (nonatomic, strong, readonly) UISlider *slider;
 //@property (nonatomic, strong, readonly) UIButton *resetBtn;
 

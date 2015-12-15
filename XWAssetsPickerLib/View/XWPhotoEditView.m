@@ -39,6 +39,7 @@ static const CGFloat kCropViewCornerLength = 22;
         _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
         _imageView.image = self.image;
         _imageView.userInteractionEnabled = YES;
+        _imageView.layer.shouldRasterize = YES;
         [self addSubview:_imageView];
     }
     return self;
@@ -310,8 +311,6 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 @property (nonatomic, strong) UIImage *image;
 
-@property (nonatomic, assign) CGSize originalSize;
-
 @property (nonatomic, assign) BOOL manualZoomed;
 
 // masks
@@ -323,7 +322,6 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 // constants
 @property (nonatomic, assign) CGSize maximumCanvasSize;
 @property (nonatomic, assign) CGFloat centerY;
-@property (nonatomic, assign) CGPoint originalPoint;
 
 // rotate
 @property (nonatomic, strong) UIImageView *rotateLeft;
@@ -373,25 +371,27 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.clipsToBounds = NO;
         _scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width, self.scrollView.bounds.size.height);
-        _scrollView.layer.shouldRasterize = YES;
+//        _scrollView.backgroundColor = [UIColor blackColor];
         [self addSubview:_scrollView];
         
         _photoContentView = [[PhotoContentView alloc] initWithImage:image];
         _photoContentView.frame = self.scrollView.bounds;
-        _photoContentView.backgroundColor = [UIColor clearColor];
+//        _photoContentView.backgroundColor = [UIColor blackColor];
         _photoContentView.userInteractionEnabled = YES;
+        _photoContentView.tag = 100;
         _scrollView.photoContentView = self.photoContentView;
         [self.scrollView addSubview:_photoContentView];
         
         CGFloat width = self.scrollView.frame.size.width<self.scrollView.frame.size.height?self.scrollView.frame.size.width:self.scrollView.frame.size.height;
         CGRect rect = CGRectMake(self.scrollView.frame.origin.x, self.scrollView.frame.origin.y, width, width);
         _cropView = [[CropView alloc] initWithFrame:rect];
+        _cropView.tag = 101;
         _cropView.center = self.scrollView.center;
         _cropView.delegate = self;
 //        _cropView.userInteractionEnabled = NO;
         [self addSubview:_cropView];
         
-        NSLog(@"%@",NSStringFromCGRect(rect));
+//        NSLog(@"%@",NSStringFromCGRect(rect));
         
         UIColor *maskColor = [UIColor colorWithWhite:0.0 alpha:0.6];
         _topMask = [UIView new];

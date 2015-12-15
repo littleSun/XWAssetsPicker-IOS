@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "XWAssetScrollView.h"
+#import "XWPhotoEditView.h"
 
 @class XWAssetsPikerEditViewController;
 @protocol XWAssetsPikerEditVCDelegate <NSObject>
@@ -28,5 +29,7 @@
 @property (nonatomic, assign) NSInteger tag;
 
 @property (nonatomic, assign) id <XWAssetsPikerEditVCDelegate> delegate;
+
+@property (strong, nonatomic) XWPhotoEditView *photoView;
 
 @end

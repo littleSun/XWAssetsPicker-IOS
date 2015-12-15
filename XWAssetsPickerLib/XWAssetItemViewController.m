@@ -24,6 +24,8 @@
 {
     if (self = [super init])
     {
+        self.navigationItem.hidesBackButton = YES;
+        self.navigationItem.backBarButtonItem = nil;
         self.pageIndex = pageIndex;
     }
     

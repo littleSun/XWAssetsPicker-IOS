@@ -7,8 +7,14 @@
 
 #import <UIKit/UIKit.h>
 
-
 @interface XWAssetsViewControllerTransition : NSObject
+<UIViewControllerAnimatedTransitioning>
+
+@property (nonatomic, assign) UINavigationControllerOperation operation;
+
+@end
+
+@interface XWAssetsViewControllerTransition2 : NSObject
 <UIViewControllerAnimatedTransitioning>
 
 @property (nonatomic, assign) UINavigationControllerOperation operation;

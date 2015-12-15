@@ -8,7 +8,6 @@
 
 #import "XWAssetsPikerEditViewController.h"
 #import "XWAssetsPikerViewController.h"
-#import "XWPhotoEditView.h"
 #import "UIImage+assets.h"
 
 #define SCALE_FRAME_Y 100.0f
@@ -16,13 +15,28 @@
 
 @interface XWAssetsPikerEditViewController ()
 
-@property (strong, nonatomic) XWPhotoEditView *photoView;
-
 @property (nonatomic, strong, readonly) UIImage *image;
 
 @end
 
 @implementation XWAssetsPikerEditViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        self.navigationItem.hidesBackButton = YES;
+        self.navigationItem.backBarButtonItem = nil;
+    }
+    return self;
+}
+
+- (void)loadView
+{
+    [super loadView];
+    
+    self.view.clipsToBounds = YES;
+//    self.view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:1.0];
+}
 
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
@@ -34,13 +48,6 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBarHidden = YES;
-    
-    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
-        self.automaticallyAdjustsScrollViewInsets = NO;
-    }
-    
-    self.view.clipsToBounds = YES;
-    self.view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:1.0];
     
     [self setupSubviews];
 }
@@ -61,7 +68,8 @@
     }
     
     self.photoView = [[XWPhotoEditView alloc] initWithFrame:self.view.bounds image:self.image];
-    self.photoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//    self.photoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.photoView.tag = 100;
     [self.view addSubview:self.photoView];
     
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
