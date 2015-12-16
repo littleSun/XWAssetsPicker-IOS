@@ -112,6 +112,12 @@ UIKIT_EXTERN NSString *const XWAssetsChangedNotificationKey;
 @property (nonatomic, assign) BOOL canEdit;
 
 /**
+ @brief 是否多选
+ @discussion
+ */
+@property (nonatomic, assign) BOOL multiSelect;
+
+/**
  @brief 已经选择数组的操作入口
  @discussion
  */

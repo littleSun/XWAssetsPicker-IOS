@@ -76,7 +76,14 @@
     
     [self pickerSelectedAssetsChanged:nil];
 
+    
     [self setTitleIndex:self.pageIndex];
+    
+    if (!self.picker.multiSelect) {
+        [self.picker.selectedAssets removeAllObjects];
+        [self.picker insertObject:[self assetAtIndex:self.pageIndex]];
+    }
+    
     [self updateBarItemIndex:self.pageIndex];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pickerSelectedAssetsChanged:) name:XWAssetsChangedNotificationKey object:nil];
@@ -203,6 +210,12 @@
         NSInteger index                 = vc.pageIndex;
         
         [self setTitleIndex:index];
+        
+        if (!self.picker.multiSelect) {
+            [self.picker.selectedAssets removeAllObjects];
+            [self.picker insertObject:[self assetAtIndex:self.pageIndex]];
+        }
+        
         [self updateBarItemIndex:index];
     }
 }

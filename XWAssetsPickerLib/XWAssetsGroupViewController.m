@@ -380,11 +380,18 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
 ///@brief 多选 
 - (void)xwAssetsViewCellChecked:(XWAssetsViewCell *)target
 {
-    if ([self.picker.selectedAssets containsObject:target.asset]) {
-        [self.picker removeObjectFromArr:target.asset];
+    if (!self.picker.multiSelect) {
+        //单选
+        [self.picker.selectedAssets removeAllObjects];
+        [self.picker insertObject:target.asset];
     }
     else {
-        [self.picker insertObject:target.asset];
+        if ([self.picker.selectedAssets containsObject:target.asset]) {
+            [self.picker removeObjectFromArr:target.asset];
+        }
+        else {
+            [self.picker insertObject:target.asset];
+        }
     }
 }
 
