@@ -74,9 +74,6 @@
     
     [self.assetToolBar setupToolBar:NO];
     
-    [self pickerSelectedAssetsChanged:nil];
-
-    
     [self setTitleIndex:self.pageIndex];
     
     if (!self.picker.multiSelect) {
@@ -85,7 +82,9 @@
     }
     
     [self updateBarItemIndex:self.pageIndex];
-    
+
+    [self pickerSelectedAssetsChanged:nil];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pickerSelectedAssetsChanged:) name:XWAssetsChangedNotificationKey object:nil];
 }
 

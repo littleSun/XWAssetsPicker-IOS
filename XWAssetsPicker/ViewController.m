@@ -33,7 +33,7 @@
 {
     
     XWAssetsPikerViewController *piker = [[XWAssetsPikerViewController alloc] init];
-    piker.multiSelect = NO;
+    piker.multiSelect = YES;
     piker.delegate = self;
     piker.assetColor = [UIColor purpleColor];
     piker.assetsFilter = [ALAssetsFilter allPhotos];

@@ -549,7 +549,7 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
         return NO;
     }
     
-    if (!self.picker.canEdit) {
+    if (self.picker.canEdit) {
         return NO;
     }
     
