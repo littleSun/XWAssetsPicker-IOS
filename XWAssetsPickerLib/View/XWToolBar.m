@@ -154,21 +154,21 @@
 }
 
 
-- (void)modifySendButtonTile:(NSString *)title
+- (void)modifySendButtonTitle:(NSString *)title
 {
     if (title) {
         [(UIButton *)self.sendItem.customView setTitle:title forState:UIControlStateNormal];
     }
 }
 
-- (void)modifyPreviewButtonTile:(NSString *)title
+- (void)modifyPreviewButtonTitle:(NSString *)title
 {
     if (title) {
         [(UIButton *)self.previewItem.customView setTitle:title forState:UIControlStateNormal];
     }
 }
 
-- (void)modifyTipsButtonTile:(NSString *)title
+- (void)modifyTipsButtonTitle:(NSString *)title
 {
     if (title) {
         [(UILabel *)self.labelItem.customView setText:title];
