@@ -37,12 +37,12 @@
 - (void)setupToolBar:(BOOL)isShow;
 
 //修改发送按钮标题
-- (void)modifySendButtonTile:(NSString *)title;
+- (void)modifySendButtonTitle:(NSString *)title;
 
 //修改预览按钮标题
-- (void)modifyPreviewButtonTile:(NSString *)title;
+- (void)modifyPreviewButtonTitle:(NSString *)title;
 
 //修改提示文字标题
-- (void)modifyTipsButtonTile:(NSString *)title;
+- (void)modifyTipsButtonTitle:(NSString *)title;
 
 @end
