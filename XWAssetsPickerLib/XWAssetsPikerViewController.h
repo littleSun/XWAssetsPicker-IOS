@@ -44,6 +44,11 @@ UIKIT_EXTERN NSString *const XWAssetsChangedNotificationKey;
 /// @brief是否将要压缩asset
 - (BOOL)assetsPickerController:(XWAssetsPikerViewController *)picker shouldCompressAsset:(ALAsset *)asset;
 
+/// @brief是否已经选择asset
+- (void)assetsPickerController:(XWAssetsPikerViewController *)picker didSelectAsset:(ALAsset *)asset;
+/// @brief是否已经取消选择asset
+- (void)assetsPickerController:(XWAssetsPikerViewController *)picker didDeselectAsset:(ALAsset *)asset;
+
 
 @end;
 

@@ -153,4 +153,26 @@
     }
 }
 
+
+- (void)modifySendButtonTile:(NSString *)title
+{
+    if (title) {
+        [(UIButton *)self.sendItem.customView setTitle:title forState:UIControlStateNormal];
+    }
+}
+
+- (void)modifyPreviewButtonTile:(NSString *)title
+{
+    if (title) {
+        [(UIButton *)self.previewItem.customView setTitle:title forState:UIControlStateNormal];
+    }
+}
+
+- (void)modifyTipsButtonTile:(NSString *)title
+{
+    if (title) {
+        [(UILabel *)self.labelItem.customView setText:title];
+    }
+}
+
 @end

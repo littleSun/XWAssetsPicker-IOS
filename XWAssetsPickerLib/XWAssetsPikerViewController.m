@@ -237,6 +237,10 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
     [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:@"selectedAssets"];
     [self.selectedAssets addObject:object];
     [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:@"selectedAssets"];
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(assetsPickerController:didSelectAsset:)]) {
+        [self.delegate assetsPickerController:self didSelectAsset:(ALAsset *)object];
+    }
 }
 
 - (void)replaceObjectInArrAtIndex:(NSInteger)index withObject:(NSObject *)object
@@ -260,6 +264,10 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
     [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:@"selectedAssets"];
     [self.selectedAssets removeObject:object];
     [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:@"selectedAssets"];
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(assetsPickerController:didDeselectAsset:)]) {
+        [self.delegate assetsPickerController:self didDeselectAsset:(ALAsset *)object];
+    }
 }
 
 
