@@ -69,7 +69,8 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
 
 - (void)setupNavigationController
 {
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
+    
+    if (@available(iOS 7.0 , *)) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     }
     
@@ -79,7 +80,7 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
 
     
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
+    if (@available(iOS 7.0 , *)) {
         [nav.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     }
     
@@ -90,6 +91,9 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
         nav.interactivePopGestureRecognizer.delegate = nil;
         nav.delegate = self;
     }
+    
+    
+    self.view.backgroundColor = [UIColor whiteColor];
     
     //    nav.delegate = self;
     [nav willMoveToParentViewController:self];
@@ -144,7 +148,7 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
     if (_delegate && [self.delegate respondsToSelector:@selector(assetsPickerControllerDidCancel:)])
         [self.delegate assetsPickerControllerDidCancel:self];
     
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
+    if (@available(iOS 7.0 , *)) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     }
     
@@ -187,14 +191,18 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
 
 - (void)finishToSend:(NSArray *)infos
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(assetsPickerController:didFinishPickingAssets:)])
-        [self.delegate assetsPickerController:self didFinishPickingAssets:infos];
     
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
+    if (@available(iOS 7.0 , *)) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     }
     
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    __weak XWAssetsPikerViewController *weakSelf = self;
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+        
+        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(assetsPickerController:didFinishPickingAssets:)])
+            [weakSelf.delegate assetsPickerController:weakSelf didFinishPickingAssets:infos];
+
+    }];
 }
 
 - (void)assetsGroupViewControllerEditOutput:(UIImage *)image
@@ -218,7 +226,7 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
         [data writeToFile:imagePath atomically:YES];
     }
     
-    UIImageWriteToSavedPhotosAlbum(image, nil, NULL, NULL);
+//    UIImageWriteToSavedPhotosAlbum(image, nil, NULL, NULL);
     
     [self finishToSend:@[info]];
 }
@@ -237,10 +245,6 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
     [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:@"selectedAssets"];
     [self.selectedAssets addObject:object];
     [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:@"selectedAssets"];
-    
-    if (_delegate && [_delegate respondsToSelector:@selector(assetsPickerController:didSelectAsset:)]) {
-        [self.delegate assetsPickerController:self didSelectAsset:(ALAsset *)object];
-    }
 }
 
 - (void)replaceObjectInArrAtIndex:(NSInteger)index withObject:(NSObject *)object
@@ -264,10 +268,6 @@ NSString *const XWAssetsChangedNotificationKey = @"XWAssetsChangedNotificationKe
     [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:@"selectedAssets"];
     [self.selectedAssets removeObject:object];
     [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:[NSIndexSet indexSetWithIndex:index] forKey:@"selectedAssets"];
-    
-    if (_delegate && [_delegate respondsToSelector:@selector(assetsPickerController:didDeselectAsset:)]) {
-        [self.delegate assetsPickerController:self didDeselectAsset:(ALAsset *)object];
-    }
 }
 
 

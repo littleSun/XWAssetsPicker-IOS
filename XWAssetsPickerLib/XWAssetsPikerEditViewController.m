@@ -146,7 +146,8 @@
                                                 outputWidth:self.photoView.cropView.frame.size.width
                                                    cropSize:self.photoView.cropView.frame.size
                                               imageViewSize:self.photoView.photoContentView.bounds.size];
-            [images addObject:[UIImage imageWithCGImage:imageRef scale:2.0 orientation:UIImageOrientationUp]];
+            [images addObject:[UIImage imageWithCGImage:imageRef]];
+            CGImageRelease(imageRef);
         }
     
         UIImage *image = [UIImage animatedImageWithImages:images duration:self.image.duration];
@@ -165,7 +166,7 @@
                                           imageViewSize:self.photoView.photoContentView.bounds.size];
         
         UIImage *image = [UIImage imageWithCGImage:imageRef];
-        
+        CGImageRelease(imageRef);
         if (_delegate && [_delegate respondsToSelector:@selector(assetsPikerEditViewController:output:)]) {
             [self.delegate assetsPikerEditViewController:self output:image];
         }

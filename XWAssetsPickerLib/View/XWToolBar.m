@@ -28,7 +28,7 @@
     if (self = [super initWithFrame:frame]) {
         self.picker = picker;
         self.backgroundColor = [UIColor whiteColor];
-
+        
         [self setBackgroundImage:[UIImage new] forToolbarPosition:UIBarPositionAny                      barMetrics:UIBarMetricsDefault];
 
         self.clipsToBounds = YES;
@@ -150,28 +150,6 @@
     else {
         self.previewItem.enabled = NO;
         self.sendItem.enabled = NO;
-    }
-}
-
-
-- (void)modifySendButtonTitle:(NSString *)title
-{
-    if (title) {
-        [(UIButton *)self.sendItem.customView setTitle:title forState:UIControlStateNormal];
-    }
-}
-
-- (void)modifyPreviewButtonTitle:(NSString *)title
-{
-    if (title) {
-        [(UIButton *)self.previewItem.customView setTitle:title forState:UIControlStateNormal];
-    }
-}
-
-- (void)modifyTipsButtonTitle:(NSString *)title
-{
-    if (title) {
-        [(UILabel *)self.labelItem.customView setText:title];
     }
 }
 

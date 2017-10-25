@@ -38,7 +38,7 @@
             if (isCompress) {
                 NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithCapacity:3];
                 [options setObject:[NSNumber numberWithBool:YES] forKey:(id)kCGImageSourceCreateThumbnailFromImageAlways];
-                [options setObject:[NSNumber numberWithFloat:160] forKey:(id)kCGImageSourceThumbnailMaxPixelSize];
+                [options setObject:[NSNumber numberWithFloat:1000] forKey:(id)kCGImageSourceThumbnailMaxPixelSize];
                 [options setObject:[NSNumber numberWithBool:NO] forKey:(id)kCGImageSourceCreateThumbnailWithTransform];
                 image = CGImageSourceCreateThumbnailAtIndex(source, i, (__bridge CFDictionaryRef)options);
             }
@@ -128,9 +128,25 @@
     return [NSData dataWithData:mutableData];
 }
 
-
--(UIImage*)scaleToSize:(CGSize)size
++ (UIImage *)imageFromAssetBundle:(NSString *)name
 {
+    if (name) {
+        NSString *file_name = [NSString stringWithFormat:@"%@/%@.png",@"XWAssetsResource.bundle",name];
+        NSString *image_url = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:file_name];
+        
+        return [UIImage imageWithContentsOfFile:image_url];
+    }
+    return nil;
+}
+
+-(UIImage*)assetScaleToSize:(CGSize)size
+{
+    if (size.width <= 0 || size.height <= 0) return nil;
+    
+    if (CGSizeEqualToSize(self.size, size)) {
+        return self;
+    }
+    
     CGSize oldsize = self.size;
     
     CGRect rect;
@@ -148,27 +164,15 @@
         rect.origin.y = -(size.height - rect.size.height)/2;
     }
     
-    UIGraphicsBeginImageContext(size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
-    UIRectFill(CGRectMake(0, 0, size.width, size.height));//clear background
-    [self drawInRect:rect];
-    UIImage *newimage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
     
-    return newimage;
+    UIGraphicsBeginImageContextWithOptions(size, NO, self.scale);
+    [self drawInRect:rect];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return image;
 }
 
-+ (UIImage *)imageFromAssetBundle:(NSString *)name
-{
-    if (name) {
-        NSString *file_name = [NSString stringWithFormat:@"%@/%@.png",@"XWAssetsResource.bundle",name];
-        NSString *image_url = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:file_name];
-        
-        return [UIImage imageWithContentsOfFile:image_url];
-    }
-    return nil;
-}
 
 //+ (UIImage *)assetImageFromColor:(UIColor *)color {
 //    CGRect rect = CGRectMake(0, 0, 1, 1);

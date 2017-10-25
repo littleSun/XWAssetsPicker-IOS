@@ -246,15 +246,12 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     
     CGFloat bottom_height = self.picker.canEdit?0:44;
     
-    if (([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)) {
-        pickerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-bottom_height) collectionViewLayout:layout];
-    }
-    else {
-        pickerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44-bottom_height) collectionViewLayout:layout];
-    }
+    pickerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-bottom_height-XWAssets_SafeHeight) collectionViewLayout:layout];
+
     pickerCollectionView.backgroundColor = [UIColor whiteColor];
     pickerCollectionView.delegate = self;
     pickerCollectionView.dataSource = self;
+    
     
     panGes = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestureFrom:)];
     panGes.minimumNumberOfTouches = 1;
@@ -269,12 +266,9 @@ static NSString * XWAssetsSupplementaryViewIdentifier = @"XWAssetsSupplementaryV
     [pickerCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"haha"];
     
     if (!self.picker.canEdit) {
-        if (([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)) {
-            _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0,  self.view.frame.size.height-44, self.view.frame.size.width, 44) andPicker:self.picker];
-        }
-        else {
-            _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0,  self.view.frame.size.height-44-44,  self.view.frame.size.width, 44) andPicker:self.picker];
-        }
+        
+ 
+        _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0, XWAssets_ScreenHeightSafe-44, self.view.frame.size.width, 44) andPicker:self.picker];
         
         self.assetToolBar.tbdelegate = self;
         [self.view addSubview:self.assetToolBar];

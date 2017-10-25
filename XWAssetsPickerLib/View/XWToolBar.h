@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#define  XWAssets_Device_Is_iPhoneX ([UIScreen mainScreen].bounds.size.height==812)
+#define  XWAssets_SafeHeight (XWAssets_Device_Is_iPhoneX?34:0)
+#define  XWAssets_ScreenHeightSafe ([UIScreen mainScreen].bounds.size.height-XWAssets_SafeHeight)
+
 @class XWAssetsPikerViewController;
 
 @class XWToolBar;
@@ -35,14 +39,5 @@
 - (id)initWithFrame:(CGRect)frame andPicker:(XWAssetsPikerViewController *)picker;
 
 - (void)setupToolBar:(BOOL)isShow;
-
-//修改发送按钮标题
-- (void)modifySendButtonTitle:(NSString *)title;
-
-//修改预览按钮标题
-- (void)modifyPreviewButtonTitle:(NSString *)title;
-
-//修改提示文字标题
-- (void)modifyTipsButtonTitle:(NSString *)title;
 
 @end

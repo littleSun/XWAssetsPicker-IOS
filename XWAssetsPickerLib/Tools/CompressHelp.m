@@ -125,13 +125,13 @@
         
         UIImage *imaged = nil;
         
-        CGFloat widthScale = image.size.width/[UIScreen mainScreen].bounds.size.width;
-        CGFloat heightScale = image.size.height/[UIScreen mainScreen].bounds.size.height;
+        CGFloat widthScale = image.size.width/960.0;
+        CGFloat heightScale = image.size.height/1080.0;
         
         if (widthScale > 1.0 && heightScale > 1.0) {
             //
             CGFloat minScale = MIN(widthScale, heightScale);
-            imaged = [image scaleToSize:CGSizeMake(image.size.width/minScale, image.size.height/minScale)];
+            imaged = [image assetScaleToSize:CGSizeMake(image.size.width/minScale, image.size.height/minScale)];
         }
         else {
             imaged = image;

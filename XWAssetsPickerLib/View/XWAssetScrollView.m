@@ -190,13 +190,19 @@
         {
 //            image = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage scale:scale
 //                                  orientation:UIImageOrientationUp];
-            ALAssetRepresentation *rep = asset.defaultRepresentation;
-            
-            Byte *imageBuffer = (Byte*)malloc((size_t)rep.size);
-            NSUInteger bufferSize = [rep getBytes:imageBuffer fromOffset:0.0 length:(long)rep.size error:nil];
-            NSData *imageData = [NSData dataWithBytesNoCopy:imageBuffer length:bufferSize freeWhenDone:YES];
-            
-            image = [UIImage animatedGIFWithData:imageData isCompress:YES];
+            if (asset.isGIF) {
+                ALAssetRepresentation *rep = asset.defaultRepresentation;
+                
+                Byte *imageBuffer = (Byte*)malloc((size_t)rep.size);
+                NSUInteger bufferSize = [rep getBytes:imageBuffer fromOffset:0.0 length:(long)rep.size error:nil];
+                NSData *imageData = [NSData dataWithBytesNoCopy:imageBuffer length:bufferSize freeWhenDone:YES];
+                
+                image = [UIImage animatedGIFWithData:imageData isCompress:YES];
+            }
+            else {
+                image = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage scale:scale orientation:UIImageOrientationUp];
+            }
+         
         }
         
         // clear the previous image

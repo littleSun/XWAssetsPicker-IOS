@@ -10,14 +10,12 @@
 
 @interface UIImage (assets)
 
-- (UIImage*)scaleToSize:(CGSize)size;
-
 + (UIImage *)animatedGIFWithData:(NSData *)data isCompress:(BOOL)isCompress;
 
 + (NSData *)animatedDataWithGIF:(UIImage *)image;
 
 + (UIImage *)imageFromAssetBundle:(NSString *)name;
 
-//+ (UIImage *)assetImageFromColor:(UIColor *)color;
+-(UIImage*)assetScaleToSize:(CGSize)size;
 
 @end

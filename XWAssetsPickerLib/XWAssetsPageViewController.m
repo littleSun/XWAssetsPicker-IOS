@@ -49,10 +49,6 @@
     
     self.dataSource             = weakSelf;
     self.delegate               = weakSelf;
-//    self.view.backgroundColor   = [UIColor blackColor];
-    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
-        self.automaticallyAdjustsScrollViewInsets = NO;
-    }
 
 
     barButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -61,13 +57,7 @@
     UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithCustomView:barButton];
     self.navigationItem.rightBarButtonItem = barItem;
     
-    if (([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending)) {
-        //
-        _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44) andPicker:self.picker];
-    }
-    else {
-        _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44-44, self.view.frame.size.width, 44) andPicker:self.picker];
-    }
+    _assetToolBar = [[XWToolBar alloc] initWithFrame:CGRectMake(0, XWAssets_ScreenHeightSafe-44, self.view.frame.size.width, 44) andPicker:self.picker];
 
     self.assetToolBar.tbdelegate = self;
     [self.view addSubview:self.assetToolBar];
@@ -82,9 +72,8 @@
     }
     
     [self updateBarItemIndex:self.pageIndex];
-
     [self pickerSelectedAssetsChanged:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pickerSelectedAssetsChanged:) name:XWAssetsChangedNotificationKey object:nil];
 }
 

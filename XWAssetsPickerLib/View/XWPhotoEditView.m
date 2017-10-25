@@ -376,7 +376,6 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         
         _photoContentView = [[PhotoContentView alloc] initWithImage:image];
         _photoContentView.frame = self.scrollView.bounds;
-//        _photoContentView.backgroundColor = [UIColor blackColor];
         _photoContentView.userInteractionEnabled = YES;
         _photoContentView.tag = 100;
         _scrollView.photoContentView = self.photoContentView;
@@ -388,11 +387,8 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         _cropView.tag = 101;
         _cropView.center = self.scrollView.center;
         _cropView.delegate = self;
-//        _cropView.userInteractionEnabled = NO;
         [self addSubview:_cropView];
-        
-//        NSLog(@"%@",NSStringFromCGRect(rect));
-        
+                
         UIColor *maskColor = [UIColor colorWithWhite:0.0 alpha:0.6];
         _topMask = [UIView new];
         _topMask.backgroundColor = maskColor;
